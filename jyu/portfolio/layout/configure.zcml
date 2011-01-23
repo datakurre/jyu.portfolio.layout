@@ -15,9 +15,9 @@
   <plone:behavior
      title="Layout support"
      description="Adds layout support to your content type"
-     provides=".layout.ILayout"
-     factory=".layout.Content"
-     marker=".layout.IHasLayout"
+     provides=".behavior.ILayout"
+     factory=".behavior.LayoutAdapter"
+     marker=".behavior.IHasLayout"
      for="plone.dexterity.interfaces.IDexterityContent"
      />
 
