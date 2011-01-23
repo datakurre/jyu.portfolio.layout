@@ -1,0 +1,32 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:five="http://namespaces.zope.org/five"
+   xmlns:grok="http://namespaces.zope.org/grok"
+   xmlns:plone="http://namespaces.plone.org/plone"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   i18n_domain="jyu.portfolio.layout">
+
+  <five:registerPackage package="." />
+  <includeDependencies package="." />    
+  <grok:grok package="." />
+
+  <i18n:registerTranslations directory="locales" />
+
+  <plone:behavior
+     title="Layout support"
+     description="Adds layout support to your content type"
+     provides=".layout.ILayout"
+     factory=".layout.Content"
+     marker=".layout.IHasLayout"
+     for="plone.dexterity.interfaces.IDexterityContent"
+     />
+
+  <genericsetup:registerProfile
+     name="default"
+     title="JYU ePortfolio Layout Engine"
+     directory="profiles/default"
+     description="Installs JYU ePortfolio Layout Engine support files."
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+</configure>

@@ -1,0 +1,442 @@
+# -*- coding: utf-8 -*-
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2010-12-21 10:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: jyu.portfolio.layout\n"
+
+#: jyu/portfolio/layout/identification.py:87
+msgid "Do not indicate"
+msgstr ""
+
+#: jyu/portfolio/layout/identification.py:85
+msgid "Female"
+msgstr ""
+
+#: jyu/portfolio/layout/identification.py:86
+msgid "Male"
+msgstr ""
+
+#: jyu/portfolio/layout/common.py:78
+msgid "The start date must be before the end date."
+msgstr ""
+
+#: jyu/portfolio/layout/common.py:55
+msgid "The start or end date is invalid"
+msgstr ""
+
+#. Default: "Select a country."
+#: jyu/portfolio/layout/common.py:45
+msgid "address_country_help"
+msgstr ""
+
+#. Default: "Country"
+#: jyu/portfolio/layout/common.py:43
+msgid "address_country_label"
+msgstr ""
+
+#. Default: "Street"
+#: jyu/portfolio/layout/common.py:21
+msgid "address_lines_label"
+msgstr ""
+
+#. Default: "City"
+#: jyu/portfolio/layout/common.py:27
+msgid "address_municipality_label"
+msgstr ""
+
+#. Default: "Postal code"
+#: jyu/portfolio/layout/common.py:34
+msgid "address_postal_code_label"
+msgstr ""
+
+#. Default: "Type here to search and select..."
+#: jyu/portfolio/layout/application.py:22
+#: jyu/portfolio/layout/common.py:40
+#: jyu/portfolio/layout/education.py:86
+msgid "autocomplete_hint"
+msgstr ""
+
+#. Default: "Spoken interaction"
+#: jyu/portfolio/layout/linguistic.py:46
+msgid "cef_language_interaction_label"
+msgstr ""
+
+#. Default: "Select your <a href=\"http://europass.cedefop.europa.eu/LanguageSelfAssessmentGrid/en\" class=\"overlay\">level</a> in this skill."
+#: jyu/portfolio/layout/linguistic.py:26
+msgid "cef_language_level_help"
+msgstr ""
+
+#. Default: "Understanding listening"
+#: jyu/portfolio/layout/linguistic.py:24
+msgid "cef_language_listening_label"
+msgstr ""
+
+#. Default: "Spoken production"
+#: jyu/portfolio/layout/linguistic.py:57
+msgid "cef_language_production_label"
+msgstr ""
+
+#. Default: "Understanding reading"
+#: jyu/portfolio/layout/linguistic.py:35
+msgid "cef_language_understanding_label"
+msgstr ""
+
+#. Default: "Writing"
+#: jyu/portfolio/layout/linguistic.py:68
+msgid "cef_language_writing_label"
+msgstr ""
+
+#. Default: "Address"
+#: jyu/portfolio/layout/work.py:28
+msgid "company_address_label"
+msgstr ""
+
+#. Default: "Name"
+#: jyu/portfolio/layout/work.py:22
+msgid "company_name_label"
+msgstr ""
+
+#. Default: "Select the best available option to describe your employer's field."
+#: jyu/portfolio/layout/work.py:37
+msgid "company_sector_Help"
+msgstr ""
+
+#. Default: "Employer field"
+#: jyu/portfolio/layout/work.py:35
+msgid "company_sector_label"
+msgstr ""
+
+#. Default: "Address"
+#: jyu/portfolio/layout/identification.py:32
+msgid "contactinfo_address_label"
+msgstr ""
+
+#. Default: "E-mail"
+#: jyu/portfolio/layout/identification.py:38
+msgid "contactinfo_email_label"
+msgstr ""
+
+#. Default: "Fax"
+#: jyu/portfolio/layout/identification.py:57
+msgid "contactinfo_fax_label"
+msgstr ""
+
+#. Default: "Mobile"
+#: jyu/portfolio/layout/identification.py:45
+msgid "contactinfo_mobile_label"
+msgstr ""
+
+#. Default: "Telephone"
+#: jyu/portfolio/layout/identification.py:51
+msgid "contactinfo_telephone_label"
+msgstr ""
+
+#. Default: "Home page"
+#: jyu/portfolio/layout/identification.py:63
+msgid "contactinfo_web_label"
+msgstr ""
+
+#. Default: "Date of birth"
+#: jyu/portfolio/layout/identification.py:75
+msgid "demographics_birthdate_label"
+msgstr ""
+
+#. Default: "Gender"
+#: jyu/portfolio/layout/identification.py:82
+msgid "demographics_gender_label"
+msgstr ""
+
+#. Default: "Select the nationalities you have."
+#: jyu/portfolio/layout/identification.py:98
+msgid "demographics_nationality_help"
+msgstr ""
+
+#. Default: "Nationality"
+#: jyu/portfolio/layout/identification.py:96
+msgid "demographics_nationality_label"
+msgstr ""
+
+#. Default: "Select an occupation for your application(s)."
+#: jyu/portfolio/layout/application.py:28
+msgid "desired_employment_help"
+msgstr ""
+
+#. Default: "Desired employment"
+#: jyu/portfolio/layout/application.py:26
+msgid "desired_emplyment_label"
+msgstr ""
+
+#. Default: "Driving licence"
+#: jyu/portfolio/layout/skills.py:73
+msgid "drivinglicense_label"
+msgstr ""
+
+#. Default: "Educational field"
+#: jyu/portfolio/layout/education.py:121
+msgid "education_field"
+msgstr ""
+
+#. Default: "Select the educational field."
+#: jyu/portfolio/layout/education.py:123
+msgid "education_field_help"
+msgstr ""
+
+#. Default: "Select level of this education after international classification."
+#: jyu/portfolio/layout/education.py:112
+msgid "education_level_help"
+msgstr ""
+
+#. Default: "Educational level"
+#: jyu/portfolio/layout/education.py:110
+msgid "education_level_label"
+msgstr ""
+
+#. Default: "Address"
+#: jyu/portfolio/layout/education.py:37
+msgid "education_org_address_label"
+msgstr ""
+
+#. Default: "Name of organisation"
+#: jyu/portfolio/layout/education.py:31
+msgid "education_org_name_label"
+msgstr ""
+
+#. Default: "Briefly describe the type of this educational organisation."
+#: jyu/portfolio/layout/education.py:46
+msgid "education_org_type_help"
+msgstr ""
+
+#. Default: "Type of organisation"
+#: jyu/portfolio/layout/education.py:44
+msgid "education_org_type_label"
+msgstr ""
+
+#. Default: "Enter details of the educational organisation."
+#: jyu/portfolio/layout/education.py:103
+msgid "education_organisation_help"
+msgstr ""
+
+#. Default: "Educational organisation"
+#: jyu/portfolio/layout/education.py:101
+msgid "education_organisation_label"
+msgstr ""
+
+#. Default: "Enter start and date of this education period."
+#: jyu/portfolio/layout/education.py:72
+msgid "education_period_help"
+msgstr ""
+
+#. Default: "Period"
+#: jyu/portfolio/layout/education.py:70
+msgid "education_period_label"
+msgstr ""
+
+#. Default: "Search and select the skills learned during this education experience."
+#: jyu/portfolio/layout/education.py:91
+msgid "education_skills_help"
+msgstr ""
+
+#. Default: "Pricipal subjects / occupational skills covered"
+#: jyu/portfolio/layout/education.py:89
+msgid "education_skills_label"
+msgstr ""
+
+#. Default: "Title of qualification awarded"
+#: jyu/portfolio/layout/education.py:80
+msgid "education_title_label"
+msgstr ""
+
+#. Default: "Contact information"
+#: jyu/portfolio/layout/identification.py:125
+msgid "identification_contactinfo_label"
+msgstr ""
+
+#. Default: "Demographics"
+#: jyu/portfolio/layout/identification.py:131
+msgid "identification_demographics_label"
+msgstr ""
+
+#. Default: "First name"
+#: jyu/portfolio/layout/identification.py:113
+msgid "identification_firstname_label"
+msgstr ""
+
+#. Default: "Last name"
+#: jyu/portfolio/layout/identification.py:119
+msgid "identification_lastname_label"
+msgstr ""
+
+#. Default: "Your picture."
+#: jyu/portfolio/layout/identification.py:139
+msgid "identification_photo_help"
+msgstr ""
+
+#. Default: "Portrait"
+#: jyu/portfolio/layout/identification.py:137
+msgid "identification_photo_label"
+msgstr ""
+
+#. Default: "Search and select a language."
+#: jyu/portfolio/layout/linguistic.py:90
+msgid "language_code_help"
+msgstr ""
+
+#. Default: "Language"
+#: jyu/portfolio/layout/linguistic.py:88
+msgid "language_code_label"
+msgstr ""
+
+#. Default: "Evaluate your knowledge of this language."
+#: jyu/portfolio/layout/linguistic.py:117
+msgid "language_level_help"
+msgstr ""
+
+#. Default: "Self evaluation"
+#: jyu/portfolio/layout/linguistic.py:115
+msgid "language_level_label"
+msgstr ""
+
+#. Default: "Awarding body"
+#: jyu/portfolio/layout/linguistic.py:151
+msgid "linguistic_diploma_awarding_body_label"
+msgstr ""
+
+#. Default: "Date"
+#: jyu/portfolio/layout/linguistic.py:157
+msgid "linguistic_diploma_date_label"
+msgstr ""
+
+#. Default: "European level"
+#: jyu/portfolio/layout/linguistic.py:164
+msgid "linguistic_diploma_level_label"
+msgstr ""
+
+#. Default: "Title of diploma"
+#: jyu/portfolio/layout/linguistic.py:145
+msgid "linguistic_diploma_title_label"
+msgstr ""
+
+#. Default: "Period"
+#: jyu/portfolio/layout/linguistic.py:176
+msgid "linguistic_experience_period_label"
+msgstr ""
+
+#. Default: "Briefly describe your linguistic experience."
+#: jyu/portfolio/layout/linguistic.py:185
+msgid "linguistic_experience_title_help"
+msgstr ""
+
+#. Default: "Description"
+#: jyu/portfolio/layout/linguistic.py:183
+msgid "linguistic_experience_title_label"
+msgstr ""
+
+#. Default: "Period ended"
+#: jyu/portfolio/layout/common.py:68
+msgid "period_end_label"
+msgstr ""
+
+#. Default: "Period began"
+#: jyu/portfolio/layout/common.py:61
+msgid "period_start_label"
+msgstr ""
+
+#. Default: "Skill"
+#: jyu/portfolio/layout/skills.py:27
+msgid "skill_label"
+msgstr ""
+
+#. Default: "Artistic"
+#: jyu/portfolio/layout/skills.py:57
+msgid "skill_type_artistic"
+msgstr ""
+
+#. Default: "Computer"
+#: jyu/portfolio/layout/skills.py:53
+msgid "skill_type_computer"
+msgstr ""
+
+#. Default: "Type"
+#: jyu/portfolio/layout/skills.py:36
+msgid "skill_type_label"
+msgstr ""
+
+#. Default: "Organisational"
+#: jyu/portfolio/layout/skills.py:45
+msgid "skill_type_organisational"
+msgstr ""
+
+#. Default: "Other"
+#: jyu/portfolio/layout/skills.py:61
+msgid "skill_type_other"
+msgstr ""
+
+#. Default: "Social"
+#: jyu/portfolio/layout/skills.py:41
+msgid "skill_type_social"
+msgstr ""
+
+#. Default: "Technical"
+#: jyu/portfolio/layout/skills.py:49
+msgid "skill_type_technical"
+msgstr ""
+
+#. Default: "Search and select a skill."
+#: jyu/portfolio/layout/skills.py:29
+msgid "skills_help"
+msgstr ""
+
+#. Default: "Search and select the skills learned during this work experience."
+#: jyu/portfolio/layout/work.py:79
+msgid "work_activities_help"
+msgstr ""
+
+#. Default: "Main activities and responsibilities"
+#: jyu/portfolio/layout/work.py:77
+msgid "work_activities_label"
+msgstr ""
+
+#. Default: "Enter details of the employer."
+#: jyu/portfolio/layout/work.py:91
+msgid "work_employer_help"
+msgstr ""
+
+#. Default: "Employer"
+#: jyu/portfolio/layout/work.py:89
+msgid "work_employer_label"
+msgstr ""
+
+#. Default: "Period"
+#: jyu/portfolio/layout/work.py:52
+msgid "work_period"
+msgstr ""
+
+#. Default: "Enter start and date of this work period."
+#: jyu/portfolio/layout/work.py:54
+msgid "work_period_help"
+msgstr ""
+
+#. Default: "Select your occupation or position during the work experience."
+#: jyu/portfolio/layout/work.py:66
+msgid "work_position_help"
+msgstr ""
+
+#. Default: "Position"
+#: jyu/portfolio/layout/work.py:64
+msgid "work_position_label"
+msgstr ""
+
