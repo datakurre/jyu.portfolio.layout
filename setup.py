@@ -28,9 +28,12 @@ setup(name='jyu.portfolio.layout',
         # -*- Behaviors: -*- 
         'lxml',
         'rwproperty',
-        'plone.tiles',
         'plone.behavior',
         'plone.directives.form',
+        # -*- Tiles and Blocks -*-
+        'plone.directives.tiles',
+        'plone.app.tiles',
+        'plone.app.blocks',
       ],
       entry_points="""
       # -*- Entry points: -*-
