@@ -1,0 +1,13 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser">
+
+  <!-- Adds hidden fields for "target" and "position". -->
+  <browser:page
+     name="add-tile"
+     for="zope.annotation.interfaces.IAnnotatable"
+     permission="cmf.ModifyPortalContent"
+     class=".traversal.AddTile"
+     template="add-tile.pt"
+     />
+</configure>

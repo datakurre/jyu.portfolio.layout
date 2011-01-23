@@ -10,10 +10,10 @@ from zope.interface import alsoProvides
 
 from zope.lifecycleevent import ObjectAddedEvent
 
-from plone.directives import form
+from plone.directives import form, tiles
 from plone.tiles.interfaces import ITile
 
-from jyu.portfolio.layout.behavior import ILayout
+from jyu.portfolio.layout.behaviors import IHasLayout, ILayout
 
 from zope.i18nmessageid import MessageFactory as ZopeMessageFactory
 _ = ZopeMessageFactory("jyu.portfolio.layout")
@@ -34,6 +34,23 @@ class IPositioned(form.Schema):
         required=False
         )
 alsoProvides(IPositioned, form.IFormFieldProvider)
+
+
+class Toolbox(tiles.Tile): 
+    tiles.name('jyu.portfolio.app.tiles.toolbox')
+    tiles.title(_(u"Column Toolbox"))
+    # tiles.description()
+
+    tiles.context(IHasLayout)
+    tiles.require('cmf.ModifyPortalContent')
+    # tile.layer()
+    # tiles.schema()
+    tiles.add_permission('cmf.ManagePortal')
+
+    def render(self):
+        return '<a class="tile" \
+href="@@add-tile?target=%s">\
++</a>' % self.id
 
 
 @grok.subscribe(ITile, ObjectAddedEvent)

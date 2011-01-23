@@ -2,6 +2,10 @@
   <head>
     <link rel="layout" href="@@layout"/>
     <link rel="tile" target="document-first-heading" href="./jyu.portfolio.app.tiles.title"/>
+    <link rel="tile" target="first-column-toolbox"
+          href="./jyu.portfolio.app.tiles.toolbox/first-colmn"/>
+    <link rel="tile" target="second-column-toolbox"
+          href="./jyu.portfolio.app.tiles.toolbox/second-column"/>
   </head>
   <body>
     <!--
@@ -18,9 +22,11 @@
     <div id="content-core" class="row">
       <div id="first-column" class="cell width-10 position-0"
            style="border: 1px solid black; min-height: 10em;">
+        <div id="first-column-toolbox"/>
       </div>
       <div id="second-column" class="cell width-6 position-10"
            style="border: 1px solid black; min-height: 10em;">
+        <div id="second-column-toolbox"/>
       </div>
     </div>
   </body>

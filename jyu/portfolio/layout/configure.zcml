@@ -3,6 +3,7 @@
    xmlns:five="http://namespaces.zope.org/five"
    xmlns:grok="http://namespaces.zope.org/grok"
    xmlns:plone="http://namespaces.plone.org/plone"
+   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
    xmlns:i18n="http://namespaces.zope.org/i18n"
    i18n_domain="jyu.portfolio.layout">
 
@@ -15,18 +16,42 @@
   <plone:behavior
      title="Layout support"
      description="Adds layout support to your content type"
-     provides=".behavior.ILayout"
-     factory=".behavior.LayoutAdapter"
-     marker=".behavior.IHasLayout"
+     provides=".behaviors.ILayout"
+     factory=".behaviors.LayoutAdapter"
+     marker=".behaviors.IHasLayout"
      for="plone.dexterity.interfaces.IDexterityContent"
      />
 
   <genericsetup:registerProfile
      name="default"
-     title="JYU ePortfolio Layout Engine"
+     title="ePortfolio Layout"
      directory="profiles/default"
-     description="Installs JYU ePortfolio Layout Engine support files."
+     description="Installs JYU ePortfolio layout engine."
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
+
+  <unconfigure>
+    <!-- Unconfigure demo-tiles from plone.app.tiles -->
+    <plone:tile
+       name="plone.app.tiles.demo.transient"
+       title="Transient demo"
+       description="A test tile that is transient"
+       add_permission="cmf.ModifyPortalContent"
+       schema="plone.app.tiles.demo.ITransientTileData"
+       class="plone.app.tiles.demo.TransientTile"
+       permission="zope2.View"
+       for="*"
+       />
+    <plone:tile
+       name="plone.app.tiles.demo.persistent"
+       title="Persistent demo"
+       description="A test tile that is persistent"
+       add_permission="cmf.ModifyPortalContent"
+       schema="plone.app.tiles.demo.IPersistentTileData"
+       class="plone.app.tiles.demo.PersistentTile"
+       permission="zope2.View"
+       for="*"
+       />
+  </unconfigure>
 </configure>

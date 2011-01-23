@@ -33,6 +33,7 @@ setup(name='jyu.portfolio.layout',
         # -*- Tiles and Blocks -*-
         'plone.directives.tiles',
         'plone.app.tiles',
+        'z3c.unconfigure',
         'plone.app.blocks',
       ],
       entry_points="""
