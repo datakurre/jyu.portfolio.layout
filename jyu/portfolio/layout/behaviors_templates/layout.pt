@@ -9,14 +9,13 @@
       <!--
       <link rel="panel" rev="content-title" target="content-title"/>
       <link rel="panel" rev="content-description" target="content-description"/>
-      -->
       <link rel="panel" rev="plone-document-byline" target="plone-document-byline"/>
+      -->
       <link rel="panel" rev="content-core" target="content-core"/>
     </metal:content-core>
   </head>
   <body>
     <metal:content-core fill-slot="content-title">
-      <!--
       <div id="content-title">
         <metal:comment tal:content="nothing">
           If you write a custom title always use
@@ -26,11 +25,9 @@
           Generic KSS Title. Is rendered with class="documentFirstHeading".
         </h1>
       </div>
-      -->
     </metal:content-core>
 
     <metal:content-core fill-slot="content-description">
-      <!--
       <div id="content-description">
         <metal:comment tal:content="nothing">
           If you write a custom description always use
@@ -40,7 +37,6 @@
           Generic KSS Description. Is rendered with class="documentDescription".
         </div>
       </div>
-      -->
     </metal:content-core>
     
     <metal:content-core fill-slot="content-core">

@@ -1,0 +1,9 @@
+.dragged {
+    background-color: white;
+    border: thin solid #ddd;
+    box-shadow: 0 0 2em black;
+    -moz-box-shadow: 0 0 2em black;
+    -webkit-box-shadow: 0 0 2em black;
+}
+
+.placeholder {}

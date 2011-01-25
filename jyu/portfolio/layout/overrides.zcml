@@ -2,12 +2,44 @@
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser">
 
-  <!-- Adds hidden fields for "target" and "position". -->
+  <!-- Adds hidden fields for "target" and "position" -->
   <browser:page
      name="add-tile"
      for="zope.annotation.interfaces.IAnnotatable"
      permission="cmf.ModifyPortalContent"
-     class=".traversal.AddTile"
+     class=".traversal.AddPositionedTile"
      template="add-tile.pt"
      />
+
+  <!-- Modifies AddForm to return back to context-->
+  <adapter
+     for="zope.annotation.interfaces.IAnnotatable
+          zope.publisher.interfaces.browser.IDefaultBrowserLayer
+          plone.tiles.interfaces.ITileType"
+     provides="plone.app.tiles.interfaces.ITileAddView"
+     factory=".add-tile.ReturningAddView"
+     />
+  
+  <class class=".add-tile.DefaultAddView">
+    <require
+       permission="cmf.ModifyPortalContent"
+       interface="zope.publisher.interfaces.browser.IBrowserPage"
+       />
+  </class>
+  
+  <!-- Modifies EditForm to return back to context-->
+  <adapter
+     for="zope.annotation.interfaces.IAnnotatable
+          zope.publisher.interfaces.browser.IDefaultBrowserLayer
+          plone.tiles.interfaces.ITileType"
+     provides="plone.app.tiles.interfaces.ITileEditView"
+     factory=".edit-tile.ReturningEditView"
+     />
+  
+  <class class=".edit-tile.DefaultEditView">
+    <require
+       permission="cmf.ModifyPortalContent"
+       interface="zope.publisher.interfaces.browser.IBrowserPage"
+       />
+  </class>
 </configure>

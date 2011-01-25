@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Adds support for hidden fields "target" and "position"""
+"""Dummy copy from plone.app.tiles.browser.traversal.
+
+Adds support for hidden fields "target" and "position.
+"""
+
 from urllib import quote
 
 from zope.component import getUtility
@@ -7,11 +11,10 @@ from plone.uuid.interfaces import IUUIDGenerator
 
 from plone.app.tiles import MessageFactory as _
 
-from plone.app.tiles.browser.traversal\
-    import AddTile as AddTileBase
+from plone.app.tiles.browser.traversal import AddTile
 
 
-class AddTile(AddTileBase):
+class AddPositionedTile(AddTile):
     """Implements the @@add-tile traversal view
 
     Rendering this view on its own will display a template where the user
