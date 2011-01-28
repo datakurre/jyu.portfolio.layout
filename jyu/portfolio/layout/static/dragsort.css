@@ -7,7 +7,7 @@
 }
 
 #content-core .cell > div:hover {
-    outline: thin dotted #ddd;
+    outline: 2px dashed #ddd;
 }
 
 .placeholder {}
