@@ -6,4 +6,8 @@
     -webkit-box-shadow: 0 0 2em black;
 }
 
+#content-core .cell > div:hover {
+    outline: thin dotted #ddd;
+}
+
 .placeholder {}

@@ -26,15 +26,16 @@ setup(name='jyu.portfolio.layout',
         # -*- Grok: -*-
         'five.grok',
         # -*- Behaviors: -*- 
-        'lxml',
         'rwproperty',
         'plone.behavior',
         'plone.directives.form',
         # -*- Tiles and Blocks -*-
         'plone.directives.tiles',
         'plone.app.tiles',
-        'z3c.unconfigure',
+        'z3c.unconfigure', # to unconfigure demo-tiles
         'plone.app.blocks',
+        # -*- XHTML-manipulation -*-
+        'lxml',
       ],
       entry_points="""
       # -*- Entry points: -*-

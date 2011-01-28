@@ -55,7 +55,7 @@ class LayoutAdapter(grok.Adapter):
     @getproperty
     def content(self):
         if hasattr(self.context, "content"):
-           return self.context.content
+            return self.context.content
         else:
             return ILayout["content"].default
 
