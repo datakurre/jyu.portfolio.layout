@@ -6,37 +6,37 @@
       i18n:domain="plone">
   <head>
     <metal:content-core fill-slot="head_slot">
-      <!--
       <link rel="panel" rev="content-title" target="content-title"/>
-      <link rel="panel" rev="content-description" target="content-description"/>
-      <link rel="panel" rev="plone-document-byline" target="plone-document-byline"/>
-      -->
       <link rel="panel" rev="content-core" target="content-core"/>
     </metal:content-core>
   </head>
   <body>
     <metal:content-core fill-slot="content-title">
       <div id="content-title">
-        <metal:comment tal:content="nothing">
-          If you write a custom title always use
-          <h1 class="documentFirstHeading"></h1> for it.
-        </metal:comment>
-        <h1 metal:use-macro="context/kss_generic_macros/macros/generic_title_view">
-          Generic KSS Title. Is rendered with class="documentFirstHeading".
-        </h1>
+        <tal:comment replace="nothing">
+          <metal:comment tal:content="nothing">
+            If you write a custom title always use
+            <h1 class="documentFirstHeading"></h1> for it.
+          </metal:comment>
+          <h1 metal:use-macro="context/kss_generic_macros/macros/generic_title_view">
+            Generic KSS Title. Is rendered with class="documentFirstHeading".
+          </h1>
+        </tal:comment>
       </div>
     </metal:content-core>
 
     <metal:content-core fill-slot="content-description">
-      <div id="content-description">
-        <metal:comment tal:content="nothing">
-          If you write a custom description always use
-          <div class="documentDescription"></div> for it.
-        </metal:comment>
-        <div metal:use-macro="context/kss_generic_macros/macros/generic_description_view">
-          Generic KSS Description. Is rendered with class="documentDescription".
+      <tal:comment replace="nothing">
+        <div id="content-description">
+          <metal:comment tal:content="nothing">
+            If you write a custom description always use
+            <div class="documentDescription"></div> for it.
+          </metal:comment>
+          <div metal:use-macro="context/kss_generic_macros/macros/generic_description_view">
+            Generic KSS Description. Is rendered with class="documentDescription".
+          </div>
         </div>
-      </div>
+      </tal:comment>
     </metal:content-core>
     
     <metal:content-core fill-slot="content-core">

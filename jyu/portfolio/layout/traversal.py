@@ -4,7 +4,7 @@
 Adds support for hidden fields "target" and "position.
 """
 
-from urllib import quote
+from urllib import urlencode
 
 from zope.component import getUtility
 from plone.uuid.interfaces import IUUIDGenerator
@@ -49,11 +49,14 @@ class AddPositionedTile(AddTile):
             if len(self.errors) == 0:
                 target = self.request.get('target', None)
                 position = self.request.get('position', '0')
-                querystring = target and "target=%s" % quote(target) or ""\
-                    + "position=%s" % quote(position) or ""
+                parameters = {}
+                if target is not None:
+                    parameters["target"] = target
+                if position is not None:
+                    parameters["position"] = position
                 self.request.response.redirect("%s/@@add-tile/%s/%s?%s" % \
                         (self.context.absolute_url(), newTileType, newTileId,
-                         querystring))
+                         urlencode(parameters)))
                 return ''
 
         return self.index()

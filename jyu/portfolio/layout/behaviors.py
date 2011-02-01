@@ -32,7 +32,7 @@ class IHasLayout(Interface):
 class ILayout(form.Schema):
     """Behavior interface to make a type support layout.
     """
-    form.fieldset('layout', label=_(u"Layout"), fields=['content'])
+    form.mode(content='hidden')
     content = schema.Text(
         title=_(u"layout_content_label",
                 default=u"Content"),

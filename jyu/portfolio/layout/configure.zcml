@@ -14,6 +14,13 @@
 
   <i18n:registerTranslations directory="locales" />
 
+  <browser:page
+      for="jyu.portfolio.layout.behaviors.IHasLayout"
+      name="jyu-portfolio-tile"
+      template="tile.pt"
+      permission="zope2.View"
+      />
+
   <plone:behavior
      title="Layout support"
      description="Adds layout support to your content type"

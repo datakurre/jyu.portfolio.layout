@@ -13,7 +13,7 @@ jQuery(function($) {
       kukit.engine.setupEvents();
     });
   };
-  $('a.tile').each(function() {
+  $('a.tile-add, a.tile-edit, a.tile-delete').each(function() {
     $($(this).prepOverlay({
       subtype: 'ajax',
       cssclass: 'content',

@@ -1,0 +1,11 @@
+form#delete .field {
+  display: none;
+}
+
+#content-core .cell > div {
+  margin: 0 1em 1em 0;
+}
+
+#content-core .toolbox {
+  float: right;
+}

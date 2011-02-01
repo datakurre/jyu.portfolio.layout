@@ -3,6 +3,7 @@
 from StringIO import StringIO
 
 import re
+from types import IntType
 
 from lxml import etree
 from five import grok
@@ -23,7 +24,7 @@ from jyu.portfolio.layout.behaviors import IHasLayout, ILayout
 from zope.i18nmessageid import MessageFactory as ZopeMessageFactory
 _ = ZopeMessageFactory("jyu.portfolio.layout")
 
-TILE_TYPE_REGEXP = re.compile(".*(@@[^/]+).*")
+NAMESPACES = { "html": "http://www.w3.org/1999/xhtml" }
 
 
 class IPositioned(form.Schema):
@@ -36,16 +37,16 @@ class IPositioned(form.Schema):
         )
     form.mode(position="hidden")
     position = schema.Int(
-        title=_(u"textsnippet_target_label",
-                default="Target element"),
+        title=_(u"textsnippet_position_label",
+                default="Target position"),
         required=False
         )
 alsoProvides(IPositioned, form.IFormFieldProvider)
 
 
-class Toolbox(tiles.Tile):
-    tiles.name('jyu.portfolio.app.tiles.toolbox')
-    tiles.title(_(u"Column Toolbox"))
+class AddTile(tiles.Tile):
+    tiles.name('jyu.portfolio.layout.tiles.add')
+    tiles.title(_(u"Add Tile"))
     # tiles.description()
 
     tiles.context(IHasLayout)
@@ -54,10 +55,12 @@ class Toolbox(tiles.Tile):
     # tiles.schema()
     tiles.add_permission('cmf.ManagePortal')
 
-    def render(self):
-        return '<a class="tile" \
-href="@@add-tile?target=%s">\
-Add</a>' % self.id
+    def update(self):
+        data = StringIO(ILayout(self.context).content)
+        root = etree.parse(data)
+        tile = root.xpath("//*[@id='%s']" % self.id)[0]
+        self.target = tile.getparent().get("id")
+        self.position = tile.getparent().index(tile)
 
 
 @grok.subscribe(ITile, ObjectAddedEvent)
@@ -65,10 +68,9 @@ def addTile(tile, event):
     context = tile.context
     data = StringIO(ILayout(context).content)
     root = etree.parse(data)
-    namespaces = {"html": "http://www.w3.org/1999/xhtml"}
-    head = root.xpath("html:head", namespaces=namespaces)[0]
+    head = root.xpath("html:head", namespaces=NAMESPACES)[0]
     columns = root.xpath("//html:div[contains(concat(' ', \
-normalize-space(@class), ' '), ' cell ')]", namespaces=namespaces)[0]
+normalize-space(@class), ' '), ' cell ')]", namespaces=NAMESPACES)
 
     if tile.data.get("target", None):
         candidates = root.xpath("//*[@id='%s']" % tile.data["target"])
@@ -78,20 +80,25 @@ normalize-space(@class), ' '), ' cell ')]", namespaces=namespaces)[0]
             target = columns[0]
     else:
         target = columns[0]
+    tile.data["target"] = target.get("id")
 
-    assert TILE_TYPE_REGEXP.match(tile.url), "Tile type extraction failed."
-
-    tile_type = TILE_TYPE_REGEXP.findall(tile.url)[0]
     link = etree.Element("link")
     link.set("rel", "tile")
     link.set("target", tile.id)
-    link.set("href", "./%s/%s" % (tile_type, tile.id))
+    link.set("href", "%s/%s" % (tile.__name__, tile.id))
 
     head.append(link)
 
     div = etree.Element("div")
     div.set("id", tile.id)
-    target.append(div)
+
+    position = tile.data.get("position", None)
+    if type(position) == IntType and position < len(target):
+        target.insert(position, div)
+        tile.data["position"] = position
+    else:
+        target.append(div)
+        tile.data["position"] = len(target)
 
     ILayout(context).content = etree.tostring(root)
 
@@ -112,23 +119,33 @@ class MoveTile(grok.View):
             self.position = 0
 
     def render(self):
+        view = None
         if self.tile_id and self.target_id:
             data = StringIO(ILayout(self.context).content)
             root = etree.parse(data)
 
             for tile in root.xpath("//*[@id='%s']" % self.tile_id):
                 for target in root.xpath("//*[@id='%s']" % self.target_id):
+
+                    url = root.xpath("//html:link[@target='%s']"\
+                        % self.tile_id, namespaces=NAMESPACES)[0].get("href")
+                    url = re.compile("^\.?\/?@{0,2}(.*)").findall(url)[0]
+                    view = self.context.restrictedTraverse(url)
+
                     tile.getparent().remove(tile)
                     if self.position < len(target):
                         target.insert(self.position, tile)
+                        view.data["position"] = self.position
                     else:
                         target.append(tile)
+                        view.data["position"] = len(target)
+                    view.data["target"] = self.target_id
                     ILayout(self.context).content = etree.tostring(root)
                     break
                 break
     
         if self.request.get("HTTP_X_REQUESTED_WITH", None) == "XMLHttpRequest":
-            return u""
+            return view and view() or u""
         return self.request.response.redirect(self.context.absolute_url())
 
 

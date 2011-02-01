@@ -6,8 +6,12 @@
     -webkit-box-shadow: 0 0 2em black;
 }
 
-#content-core .cell > div:hover {
+#content-core .cell.sortable > div:hover {
     outline: 2px dashed #ddd;
+}
+
+#content-core .cell.sortable > div.dragged:hover {
+    outline: none;
 }
 
 .placeholder {}
