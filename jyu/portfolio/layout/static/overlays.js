@@ -5,6 +5,9 @@ jQuery(function($) {
     try { $(el).find("form div[id$=autocomplete]").autocomplete_z3cform(); } catch (err) {};
     // autocomplete-plugin must be inited before placeholder-plugin
     try { $(el).find("form .field").placeholder_z3cform(); } catch (err) {};
+    // markdown
+    try { $(el).find("form input[value='text/x-web-markdown']")
+          .parent().find("textarea").markdown_z3cform(); } catch (err) {};
     // Init KSS, but remember that KSS is made optional in 4.1!
     $(el).find("form").one("focus", function() {
       kukit.engine.setupEvents();
