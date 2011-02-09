@@ -3,8 +3,8 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="jyu.portfolio.layout">
   <body>
-    <a href="#" class="tile tile-add"
-       tal:attributes="href string:@@add-tile?target=${view/target}&amp;position=${view/position}">
+    <a href="#" class="tile tile-add" tal:condition="view/visible"
+       tal:attributes="href string:@@add-tile?target=${view/target}&position=-1">
        <img alt="" tal:attributes="src context/add_icon.png/absolute_url"/>&nbsp;<span i18n:translate="">Add</span>
     </a>
   </body>

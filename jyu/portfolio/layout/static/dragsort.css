@@ -14,4 +14,10 @@
     outline: none;
 }
 
-.placeholder {}
+.placeholder {
+    border: thin dotted #ddd;
+    box-shadow: 0 0 2em #ddd;
+    -moz-box-shadow: 0 0 2em #ddd;
+    -webkit-box-shadow: 0 0 2em #ddd;
+    width: 100% !important;
+}

@@ -1,7 +1,8 @@
 /*globals jQuery,common_content_filter*/
 jQuery(function($) {
-  $("#content-core .cell.sortable").dragsort({
-    itemSelector: '.cell > div',
+  $(".documentEditable #content-core .cell.sortable,"
+     + ".documentEditable #content-core .cell > .sortable").dragsort({
+    itemSelector: '.sortable > div',
     dragSelector: 'div',
     dragBetween: true,
     placeHolderTemplate: '<div class="placeholder"></div>',

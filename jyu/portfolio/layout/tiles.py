@@ -10,6 +10,7 @@ from five import grok
 
 from zope import schema
 from zope.interface import alsoProvides
+from zope.security import checkPermission
 
 from zope.annotation.interfaces import IAnnotatable
 
@@ -24,7 +25,7 @@ from jyu.portfolio.layout.behaviors import IHasLayout, ILayout
 from zope.i18nmessageid import MessageFactory as ZopeMessageFactory
 _ = ZopeMessageFactory("jyu.portfolio.layout")
 
-NAMESPACES = { "html": "http://www.w3.org/1999/xhtml" }
+NAMESPACES = {"html": "http://www.w3.org/1999/xhtml"}
 
 
 class IPositioned(form.Schema):
@@ -50,7 +51,7 @@ class AddTile(tiles.Tile):
     # tiles.description()
 
     tiles.context(IHasLayout)
-    tiles.require('cmf.ModifyPortalContent')
+    tiles.require('zope2.View')
     # tile.layer()
     # tiles.schema()
     tiles.add_permission('cmf.ManagePortal')
@@ -59,8 +60,15 @@ class AddTile(tiles.Tile):
         data = StringIO(ILayout(self.context).content)
         root = etree.parse(data)
         tile = root.xpath("//*[@id='%s']" % self.id)[0]
-        self.target = tile.getparent().get("id")
-        self.position = tile.getparent().index(tile)
+        self.target = tile.getprevious().get("id")
+
+    @property
+    def visible(self):
+        # You'd think you could use
+        # tiles.require('cmf.ModifyPortalContent'), but it doesn't
+        # really work, insufficient permissions doen't hide tile, but
+        # renders "You are not authorized to..." :/
+        return checkPermission('cmf.ModifyPortalContent', self.context)
 
 
 @grok.subscribe(ITile, ObjectAddedEvent)
@@ -69,8 +77,9 @@ def addTile(tile, event):
     data = StringIO(ILayout(context).content)
     root = etree.parse(data)
     head = root.xpath("html:head", namespaces=NAMESPACES)[0]
-    columns = root.xpath("//html:div[contains(concat(' ', \
-normalize-space(@class), ' '), ' cell ')]", namespaces=NAMESPACES)
+    columns = root.xpath(
+        ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
+         "' sortable ')]"), namespaces=NAMESPACES)
 
     if tile.data.get("target", None):
         candidates = root.xpath("//*[@id='%s']" % tile.data["target"])
@@ -93,7 +102,8 @@ normalize-space(@class), ' '), ' cell ')]", namespaces=NAMESPACES)
     div.set("id", tile.id)
 
     position = tile.data.get("position", None)
-    if type(position) == IntType and position < len(target):
+    if type(position) == IntType\
+            and position >= 0 and position < len(target):
         target.insert(position, div)
         tile.data["position"] = position
     else:
@@ -132,6 +142,9 @@ class MoveTile(grok.View):
                     url = re.compile("^\.?\/?@{0,2}(.*)").findall(url)[0]
                     view = self.context.restrictedTraverse(url)
 
+                    view.data["target"] = self.target_id
+                    view.data["position"] = self.position
+
                     tile.getparent().remove(tile)
                     if self.position < len(target):
                         target.insert(self.position, tile)
@@ -143,7 +156,7 @@ class MoveTile(grok.View):
                     ILayout(self.context).content = etree.tostring(root)
                     break
                 break
-    
+
         if self.request.get("HTTP_X_REQUESTED_WITH", None) == "XMLHttpRequest":
             return view and view() or u""
         return self.request.response.redirect(self.context.absolute_url())

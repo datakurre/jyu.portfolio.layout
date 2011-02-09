@@ -1,18 +1,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <link rel="layout" href="@@layout"/>
-    <link rel="tile" target="first-column-add"
-          href="jyu.portfolio.layout.tiles.add/first-column-add"/>
-    <link rel="tile" target="second-column-add"
-          href="jyu.portfolio.layout.tiles.add/second-column-add"/>
+    <link rel="tile" target="col-sidebar-footer"
+          href="jyu.portfolio.layout.tiles.add/col-sidebar-footer"/>
+    <link rel="tile" target="col-content-footer"
+          href="jyu.portfolio.layout.tiles.add/col-content-footer"/>
   </head>
   <body>
     <div id="content-core" class="row">
-      <div id="first-column" class="cell width-6 position-0 sortable">
-        <div id="first-column-add"/>
+      <div id="col-sidebar" class="cell width-6 position-0">
+        <div id="col-sidebar-header"/>
+        <div id="col-sidebar-tiles" class="sortable"/>
+        <div id="col-sidebar-footer"/>
       </div>
-      <div id="second-column" class="cell width-10 position-6 sortable">
-        <div id="second-column-add"/>
+      <div id="col-content" class="cell width-10 position-6">
+        <div id="col-content-header"/>
+        <div id="col-content-tiles" class="sortable"/>
+        <div id="col-content-footer"/>
       </div>
     </div>
   </body>

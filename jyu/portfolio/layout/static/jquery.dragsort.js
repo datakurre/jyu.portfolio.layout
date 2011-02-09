@@ -205,7 +205,7 @@
 							}
 						});
 					});
-					if (changed)
+					if (changed || list.draggedItem.parent()[0] !== list.container)
 						opts.dragEnd.apply(list.draggedItem);
 					list.draggedItem = null;
 					$(document).unbind("selectstart", list.stopBubble);
