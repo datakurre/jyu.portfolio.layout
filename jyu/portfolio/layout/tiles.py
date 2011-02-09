@@ -100,6 +100,7 @@ def addTile(tile, event):
 
     div = etree.Element("div")
     div.set("id", tile.id)
+    div.set("class", "tile %s" % tile.__name__.replace(".", "-"))
 
     position = tile.data.get("position", None)
     if type(position) == IntType\
@@ -166,7 +167,7 @@ class MoveTile(grok.View):
 def removeTile(tile, event):
     context = event.oldParent
     tile_id = event.oldName
-
+    
     data = StringIO(ILayout(context).content)
     root = etree.parse(data)
 
@@ -176,4 +177,7 @@ def removeTile(tile, event):
     for removable in root.xpath("//*[@id='%s']" % tile_id):
         removable.getparent().remove(removable)
 
-    ILayout(context).content = etree.tostring(root)
+    try:
+        ILayout(context).content = etree.tostring(root)
+    except AttributeError:
+        pass
