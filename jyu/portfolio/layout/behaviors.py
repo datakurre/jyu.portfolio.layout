@@ -11,6 +11,8 @@ from zope.interface import Interface, alsoProvides
 
 from plone.directives import form
 
+from plone.app.layout.globals.interfaces import IViewView
+
 from plone.dexterity.interfaces import IDexterityContent
 
 from zope.i18nmessageid import MessageFactory as ZopeMessageFactory
@@ -67,6 +69,7 @@ class LayoutAdapter(grok.Adapter):
 class Layout(grok.View):
     """Renders layout"""
     grok.context(IHasLayout)
+    grok.implements(IViewView)
     grok.require("zope2.View")
 
 
