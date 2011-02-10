@@ -1,11 +1,13 @@
 form#delete .field {
-  display: none;
+    display: none;
 }
 
-#content-core .cell > div {
-  margin: 0 1em 1em 0;
+#content-core .tile {
+    position: relative;
 }
 
-#content-core .tile-header {
-  float: right;
+#content-core .tile .tile-header {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

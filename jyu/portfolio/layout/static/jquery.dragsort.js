@@ -43,8 +43,6 @@
 					if (list != null && list.draggedItem != null)
 						list.dropItem();
 
-					$(e.target).css("cursor", "move");
-
 					list = lists[$(this).attr("data-listIdx")];
 					list.draggedItem = $(elm).closest(opts.itemSelector);
 					list.draggedItem.addClass("dragged");
@@ -74,7 +72,7 @@
 						list.draggedItem.after(opts.placeHolderTemplate);
 						list.placeHolderItem = list.draggedItem.next().css({ height: h, width: w }).attr("data-placeHolder", true);
 					}
-					list.draggedItem.css({ position: "absolute", opacity: 0.8, "z-index": 999, height: h, width: w });
+					list.draggedItem.css({ position: "absolute", opacity: 0.8, "z-index": 999, height: h, width: w, cursor: "move" });
 
 					$(lists).each(function(i, l) { l.createDropTargets(); l.buildPositionTable(); });
 

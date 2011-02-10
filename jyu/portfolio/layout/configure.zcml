@@ -61,5 +61,23 @@
        permission="zope2.View"
        for="*"
        />
+    <plone:tile
+        name="plone.app.blocks.demo1"
+        title="Demo tile 1"
+        add_permission="cmf.ManagePortal"
+        template="tile.pt"
+        permission="zope.Public"
+        schema="plone.app.blocks.demo.demo.IDemoTile"
+        />
+    
+    <plone:tile
+        name="plone.app.blocks.demo2"
+        title="Demo tile 2"
+        add_permission="cmf.ManagePortal"
+        class="plone.tiles.esi.ESITile"
+        template="tile.pt"
+        permission="zope.Public"
+        schema="plone.app.blocks.demo.demo.IDemoTile"
+        />
   </unconfigure>
 </configure>

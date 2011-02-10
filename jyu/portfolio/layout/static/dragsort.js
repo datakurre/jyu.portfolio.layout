@@ -3,9 +3,9 @@ jQuery(function($) {
   $(".documentEditable #content-core .cell.sortable,"
      + ".documentEditable #content-core .cell > .sortable").dragsort({
     itemSelector: '.sortable > div',
-    dragSelector: 'div',
+    dragSelector: '> div',
     dragBetween: true,
-    placeHolderTemplate: '<div class="placeholder"></div>',
+    placeHolderTemplate: '<div class="tile placeholder"></div>',
     dragSelectorExclude: "input, textarea, a[href], a[href] img, a[href] span",
     dragEnd: function(e) {
       var that = this;
@@ -14,10 +14,12 @@ jQuery(function($) {
         target: $(this).parent().attr("id"),
         position: $(this).attr("data-itemidx")
       }, function(data) {
+        /* This "update on fly" was a nice idea, but breaks contained overlay links. */ 
+        /*
         if ($(data).filter("*").length !== 0) {
-          $(that).children()
-            .replaceWith($(data).filter("*"));
+          $(that).children().replaceWith($(data).filter("*"));
         }
+        */
       });
     }
   });

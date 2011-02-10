@@ -54,7 +54,7 @@ class AddTile(tiles.Tile):
     tiles.require('zope2.View')
     # tile.layer()
     # tiles.schema()
-    tiles.add_permission('cmf.ManagePortal')
+    tiles.add_permission('cmf.UberManagePortal')  # nonexisting
 
     def update(self):
         data = StringIO(ILayout(self.context).content)
@@ -154,7 +154,11 @@ class MoveTile(grok.View):
                         target.append(tile)
                         view.data["position"] = len(target)
                     view.data["target"] = self.target_id
-                    ILayout(self.context).content = etree.tostring(root)
+                    try:
+                        ILayout(self.context).content = etree.tostring(root)
+                    except AttributeError:
+                        # layout is read only
+                        pass
                     break
                 break
 
@@ -180,4 +184,5 @@ def removeTile(tile, event):
     try:
         ILayout(context).content = etree.tostring(root)
     except AttributeError:
+        # layout is read only
         pass

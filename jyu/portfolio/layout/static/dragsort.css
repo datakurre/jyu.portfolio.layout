@@ -1,23 +1,24 @@
-.dragged {
-    background-color: white;
-    border: thin solid #ddd;
-    box-shadow: 0 0 2em black;
-    -moz-box-shadow: 0 0 2em black;
-    -webkit-box-shadow: 0 0 2em black;
-}
-
-#content-core .cell.sortable > div:hover {
+.documentEditable #content-core .cell.sortable > div:hover,
+.documentEditable #content-core .cell > .sortable > div:hover {
     outline: 2px dashed #ddd;
 }
 
-#content-core .cell.sortable > div.dragged:hover {
+.documentEditable #content-core .cell.sortable > div.dragged,
+.documentEditable #content-core .cell > .sortable > div.dragged {
+    background-color: white;
+    border: thin solid #ddd;
+    box-shadow: 0 0 2em #666;
+    -moz-box-shadow: 0 0 2em #666;
+    -webkit-box-shadow: 0 0 2em #666;
+}
+
+.documentEditable #content-core .cell.sortable > div.dragged:hover,
+.documentEditable #content-core .cell > .sortable > div.dragged:hover {
     outline: none;
 }
 
-.placeholder {
-    border: thin dotted #ddd;
-    box-shadow: 0 0 2em #ddd;
-    -moz-box-shadow: 0 0 2em #ddd;
-    -webkit-box-shadow: 0 0 2em #ddd;
+.documentEditable #content-core .placeholder {
+    position: relative;
+    outline: 2px dashed #ddd;
     width: 100% !important;
 }

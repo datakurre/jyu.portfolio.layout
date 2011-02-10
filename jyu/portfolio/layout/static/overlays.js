@@ -28,6 +28,8 @@ jQuery(function($) {
       afterpost: function(el) {
         init(el);
       }
+    }).each(function() {
+      console.log("Grab this");
     }).attr("rel")).bind("onLoad", function() {
       init(this);
     });
