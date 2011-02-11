@@ -2,6 +2,17 @@
    xmlns="http://namespaces.zope.org/zope"
    xmlns:browser="http://namespaces.zope.org/browser">
 
+   <!-- Adds KSS-support for tiles with jyu.formwidget.object's validator -->
+   <browser:page
+       name="ploneform-macros"
+       for="*"
+       layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+       class="plone.app.z3cform.templates.Macros"
+       template="plone-app-z3cform-templates-macros.pt"
+       allowed_interface="zope.interface.common.mapping.IItemMapping"
+       permission="zope.Public"
+       />
+
   <!-- Adds hidden fields for "target" and "position" -->
   <browser:page
      name="add-tile"

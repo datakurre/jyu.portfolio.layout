@@ -1,0 +1,13 @@
+Index: plone/app/z3cform/templates/macros.pt
+===================================================================
+--- plone/app/z3cform/templates/macros.pt
++++ plone/app/z3cform/templates/macros.pt
+@@ -58,7 +58,7 @@
+                                   "
+                       tal:attributes="action view/action|request/getURL; 
+                                       enctype view/enctype;
+-                                      class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, request.getURL().split('/')[-1]);
++                                      class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, '/@@' in request.getURL() and request.getURL().split('/@@')[-1] or request.getURL().split('/')[-1]);
+                                       id view/id;
+                                       method view/method|string:'post'
+                                       ">
