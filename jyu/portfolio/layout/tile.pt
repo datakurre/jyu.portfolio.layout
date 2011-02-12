@@ -8,6 +8,7 @@
       <span class="tile-header"
             tal:define="mtool context/@@plone_tools/membership"
             tal:condition="python:mtool.checkPermission('Modify portal content', context)">
+        <metal:content define-slot="tile-header"/>
         <a class="tile-edit" href="#" tal:define="id view/id"
            tal:attributes="href string:@@edit-tile/${view/__name__}/${id}"
            ><img alt="Edit" i18n:attributes="alt"
@@ -25,6 +26,7 @@
       <span class="tile-header"
             tal:define="mtool context/@@plone_tools/membership"
             tal:condition="python:mtool.checkPermission('Modify portal content', context)">
+        <metal:content define-slot="tile-header"/>
         <a class="tile-delete" href="#" tal:define="id view/id"
            tal:attributes="href string:@@delete-tile?type=${view/__name__}&amp;id=${id}">
           <img alt="Delete" i18n:attributes="alt"

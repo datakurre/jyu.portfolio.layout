@@ -13,13 +13,6 @@ jQuery(function($) {
         tile: $(this).attr("id"),
         target: $(this).parent().attr("id"),
         position: $(this).attr("data-itemidx")
-      }, function(data) {
-        /* This "update on fly" was a nice idea, but breaks contained overlay links. */ 
-        /*
-        if ($(data).filter("*").length !== 0) {
-          $(that).children().replaceWith($(data).filter("*"));
-        }
-        */
       });
     }
   });

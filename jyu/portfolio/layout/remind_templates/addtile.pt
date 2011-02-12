@@ -5,7 +5,7 @@
   <body>
     <a href="#" class="tile tile-add" tal:condition="view/visible"
        tal:attributes="href string:@@add-tile?target=${view/target}&position=-1">
-       <img alt="" tal:attributes="src context/add_icon.png/absolute_url"/>&nbsp;<span i18n:translate="">Add</span>
+       <img alt="" tal:attributes="src context/add_icon.png/absolute_url"/>&nbsp;<span i18n:translate="">Add new...</span>
     </a>
   </body>
 </html>

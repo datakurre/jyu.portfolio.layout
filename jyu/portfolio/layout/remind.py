@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Adds layout support to your content type"""
+"""Reminds of, but is not Deco, just a poor substitute"""
 from StringIO import StringIO
 
 import re
@@ -11,14 +11,17 @@ from five import grok
 from zope import schema
 from zope.interface import alsoProvides
 from zope.security import checkPermission
+from zope.component import getUtility
 
 from zope.annotation.interfaces import IAnnotatable
 
-from zope.lifecycleevent import\
-    ObjectAddedEvent, ObjectRemovedEvent
+from zope.lifecycleevent import ObjectAddedEvent,\
+    ObjectModifiedEvent, ObjectRemovedEvent
 
 from plone.directives import form, tiles
-from plone.tiles.interfaces import ITile
+from plone.tiles.interfaces import\
+    ITileType, ITile, IPersistentTile
+from plone.tiles.data import encode
 
 from jyu.portfolio.layout.behaviors import IHasLayout, ILayout
 
@@ -34,12 +37,14 @@ class IPositioned(form.Schema):
     target = schema.TextLine(
         title=_(u"textsnippet_target_label",
                 default="Target element"),
+        default=u"",
         required=False
         )
     form.mode(position="hidden")
     position = schema.Int(
         title=_(u"textsnippet_position_label",
                 default="Target position"),
+        default=-1,
         required=False
         )
 alsoProvides(IPositioned, form.IFormFieldProvider)
@@ -73,9 +78,11 @@ class AddTile(tiles.Tile):
 
 @grok.subscribe(ITile, ObjectAddedEvent)
 def addTile(tile, event):
-    context = tile.context
-    data = StringIO(ILayout(context).content)
+    schema = getUtility(ITileType, name=tile.__name__).schema
+
+    data = StringIO(ILayout(tile.context).content)
     root = etree.parse(data)
+
     head = root.xpath("html:head", namespaces=NAMESPACES)[0]
     columns = root.xpath(
         ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
@@ -89,13 +96,13 @@ def addTile(tile, event):
             target = columns[0]
     else:
         target = columns[0]
-    tile.data["target"] = target.get("id")
+    if "target" in tile.data:
+        del tile.data["target"]
 
     link = etree.Element("link")
     link.set("rel", "tile")
     link.set("target", tile.id)
-    link.set("href", "%s/%s" % (tile.__name__, tile.id))
-
+    link.set("href", u"%s/%s" % (tile.__name__, tile.id))
     head.append(link)
 
     div = etree.Element("div")
@@ -106,12 +113,16 @@ def addTile(tile, event):
     if type(position) == IntType\
             and position >= 0 and position < len(target):
         target.insert(position, div)
-        tile.data["position"] = position
     else:
         target.append(div)
-        tile.data["position"] = len(target)
+    if "position" in tile.data:
+        del tile.data["position"]
 
-    ILayout(context).content = etree.tostring(root)
+    if not IPersistentTile.providedBy(tile):
+        link.set("href", link.get("href")\
+            + u"?" + encode(tile.data, schema))
+
+    ILayout(tile.context).content = etree.tostring(root)
 
 
 class MoveTile(grok.View):
@@ -130,7 +141,6 @@ class MoveTile(grok.View):
             self.position = 0
 
     def render(self):
-        view = None
         if self.tile_id and self.target_id:
             data = StringIO(ILayout(self.context).content)
             root = etree.parse(data)
@@ -141,19 +151,12 @@ class MoveTile(grok.View):
                     url = root.xpath("//html:link[@target='%s']"\
                         % self.tile_id, namespaces=NAMESPACES)[0].get("href")
                     url = re.compile("^\.?\/?@{0,2}(.*)").findall(url)[0]
-                    view = self.context.restrictedTraverse(url)
-
-                    view.data["target"] = self.target_id
-                    view.data["position"] = self.position
 
                     tile.getparent().remove(tile)
                     if self.position < len(target):
                         target.insert(self.position, tile)
-                        view.data["position"] = self.position
                     else:
                         target.append(tile)
-                        view.data["position"] = len(target)
-                    view.data["target"] = self.target_id
                     try:
                         ILayout(self.context).content = etree.tostring(root)
                     except AttributeError:
@@ -163,8 +166,31 @@ class MoveTile(grok.View):
                 break
 
         if self.request.get("HTTP_X_REQUESTED_WITH", None) == "XMLHttpRequest":
-            return view and view() or u""
+            return u""
         return self.request.response.redirect(self.context.absolute_url())
+
+
+@grok.subscribe(ITile, ObjectModifiedEvent)
+def modifyTile(tile, event):
+    if "target" in tile.data:
+        del tile.data["target"]
+    if "position" in tile.data:
+        del tile.data["position"]
+    if not IPersistentTile.providedBy(tile):
+        schema = getUtility(ITileType, name=tile.__name__).schema
+        data = StringIO(ILayout(tile.context).content)
+        root = etree.parse(data)
+        link = root.xpath("//html:link[@target='%s']"\
+            % tile.id, namespaces=NAMESPACES)        
+        href = u"%s/%s" % (tile.__name__, tile.id)\
+            + u"?" + encode(tile.data, schema)
+        if len(link) and link[0].get("href") != href:
+            link[0].set("href", href)
+            try:
+                ILayout(tile.context).content = etree.tostring(root)
+            except AttributeError:
+                # layout is read only
+                pass
 
 
 @grok.subscribe(ITile, ObjectRemovedEvent)
