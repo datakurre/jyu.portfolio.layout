@@ -53,4 +53,14 @@
        interface="zope.publisher.interfaces.browser.IBrowserPage"
        />
   </class>
+
+  <!-- Adds cancel button to delete view -->
+  <browser:page
+     name="delete-tile"
+     for="zope.annotation.interfaces.IAnnotatable"
+     class="plone.app.tiles.browser.delete.TileDelete"
+     template="delete.pt"
+     permission="cmf.ModifyPortalContent"
+     />
+
 </configure>

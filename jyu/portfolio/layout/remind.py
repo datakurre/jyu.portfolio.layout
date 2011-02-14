@@ -132,8 +132,11 @@ class MoveTile(grok.View):
     grok.context(IAnnotatable)
     grok.require('cmf.ModifyPortalContent')
 
-    def update(self, tile=None, target=None, position=0):
+    def update(self, tile=None, direction=None, target=None, position=0):
         self.tile_id = tile
+        self.direction =\
+            direction in [u"up", u"right", u"down", u"left"] and direction\
+            or None
         self.target_id = target
         try:
             self.position = max(0, int(position))
@@ -141,7 +144,59 @@ class MoveTile(grok.View):
             self.position = 0
 
     def render(self):
-        if self.tile_id and self.target_id:
+        if self.tile_id and self.direction:
+            data = StringIO(ILayout(self.context).content)
+            root = etree.parse(data)
+
+            columns = root.xpath(
+                ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
+                 "' sortable ')]"), namespaces=NAMESPACES)
+            
+            for tile in root.xpath("//*[@id='%s']" % self.tile_id):
+                modified = False
+                parent = tile.getparent()
+
+                if self.direction == u"up":
+                    start = parent.index(tile)
+                    position = max(0, start - 1)
+                    if position != start:
+                        parent.remove(tile)
+                        parent.insert(position, tile)
+                        modified = True
+
+                elif self.direction == u"down":
+                    start = parent.index(tile)
+                    position = min(len(parent) - 1, start + 1)
+                    if position != start:
+                        parent.remove(tile)
+                        parent.insert(position, tile)
+                        modified = True
+
+                elif self.direction == u"right":
+                    start = columns.index(parent)
+                    position = min(len(columns) - 1, start + 1)
+                    if position != start:
+                        parent.remove(tile)
+                        columns[position].insert(0, tile)
+                        modified = True
+
+                elif self.direction == u"left":
+                    start = columns.index(parent)
+                    position = max(0, start - 1)
+                    if position != start:
+                        parent.remove(tile)
+                        columns[position].insert(0, tile)
+                        modified = True
+
+                try:
+                    if modified:
+                        ILayout(self.context).content = etree.tostring(root)
+                except AttributeError:
+                    # layout is read only
+                    pass
+                break
+
+        elif self.tile_id and self.target_id:
             data = StringIO(ILayout(self.context).content)
             root = etree.parse(data)
 
@@ -181,7 +236,7 @@ def modifyTile(tile, event):
         data = StringIO(ILayout(tile.context).content)
         root = etree.parse(data)
         link = root.xpath("//html:link[@target='%s']"\
-            % tile.id, namespaces=NAMESPACES)        
+            % tile.id, namespaces=NAMESPACES)
         href = u"%s/%s" % (tile.__name__, tile.id)\
             + u"?" + encode(tile.data, schema)
         if len(link) and link[0].get("href") != href:
@@ -197,7 +252,7 @@ def modifyTile(tile, event):
 def removeTile(tile, event):
     context = event.oldParent
     tile_id = event.oldName
-    
+
     data = StringIO(ILayout(context).content)
     root = etree.parse(data)
 
