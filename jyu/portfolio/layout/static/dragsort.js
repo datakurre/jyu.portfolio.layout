@@ -15,5 +15,5 @@ jQuery(function($) {
         position: $(this).attr("data-itemidx")
       });
     }
-  });
+  }).find(".tile-move-up, .tile-move-right, .tile-move-down, .tile-move-left").hide();
 });
