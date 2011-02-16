@@ -38,7 +38,7 @@
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
-
+     
   <unconfigure>
     <!-- Unconfigure demo-tiles from plone.app.tiles -->
     <plone:tile
@@ -61,6 +61,7 @@
        permission="zope2.View"
        for="*"
        />
+    <!--
     <plone:tile
         name="plone.app.blocks.demo1"
         title="Demo tile 1"
@@ -79,5 +80,6 @@
         permission="zope.Public"
         schema="plone.app.blocks.demo.demo.IDemoTile"
         />
+      -->
   </unconfigure>
 </configure>
