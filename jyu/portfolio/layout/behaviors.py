@@ -95,12 +95,12 @@ class View(grok.View):
         return ILayout(self.context).content
 
 
-class FactoriesSubMenuItem(grok.MultiAdapter, BrowserSubMenuItem):
-    grok.name("portfolio.contentmenu.tilefactories")
+class TilesSubMenuItem(grok.MultiAdapter, BrowserSubMenuItem):
+    grok.name("remind.contentmenu.tiles")
     grok.provides(IContentMenuItem)
     grok.adapts(IHasLayout, IBrowserRequest)
 
-    submenuId = 'portfolio_contentmenu_tilefactory'
+    submenuId = 'remind_contentmenu_tiles'
     order = 35
 
     title = _(u'layout_add_new_label', default=u'Place new\u2026')
@@ -109,7 +109,7 @@ class FactoriesSubMenuItem(grok.MultiAdapter, BrowserSubMenuItem):
 
     @property
     def extra(self):
-        return {'id': 'portfolio-contentmenu-tilefactories'}
+        return {'id': 'remind-contentmenu-tiles'}
 
     @property
     def action(self):
@@ -132,15 +132,12 @@ class FactoriesSubMenuItem(grok.MultiAdapter, BrowserSubMenuItem):
         return False
 
 
-class FactoriesMenu(grok.GlobalUtility, BrowserMenu):
-    grok.name("portfolio_contentmenu_tilefactory")
+class TilesMenu(grok.GlobalUtility, BrowserMenu):
+    grok.name("remind_contentmenu_tiles")
     grok.provides(IBrowserMenu)
 
-    def tileSortKey(self, type1, type2):
-        return cmp(type1.title, type2.title)
-
     def __init__(self):
-        super(FactoriesMenu, self).__init__(self)
+        super(TilesMenu, self).__init__(self)
 
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
