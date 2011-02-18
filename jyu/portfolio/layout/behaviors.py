@@ -103,7 +103,7 @@ class FactoriesSubMenuItem(grok.MultiAdapter, BrowserSubMenuItem):
     submenuId = 'portfolio_contentmenu_tilefactory'
     order = 35
 
-    title = _(u'layout_add_new_label', default=u'Add new tile\u2026')
+    title = _(u'layout_add_new_label', default=u'Place new\u2026')
     description = _(u'layout_add_new_help',
                     default=u'Add new tile onto this page')
 
@@ -130,20 +130,6 @@ class FactoriesSubMenuItem(grok.MultiAdapter, BrowserSubMenuItem):
 
     def selected(self):
         return False
-
-#    @memoize
-#    def _itemsToAdd(self):
-#      context=self.context_state.folder()
-#      return [(context, fti) for fti in self._addableTypesInContext(context)]
-#
-#    def _addableTypesInContext(self, addContext):
-#        allowed_types = _allowedTypes(self.request, addContext)
-#        constrain = IConstrainTypes(addContext, None)
-#        if constrain is None:
-#            return allowed_types
-#      else:
-#        locallyAllowed = constrain.getLocallyAllowedTypes()
-#        return [fti for fti in allowed_types if fti.getId() in locallyAllowed]
 
 
 class FactoriesMenu(grok.GlobalUtility, BrowserMenu):
