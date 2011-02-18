@@ -7,7 +7,12 @@ form#delete .field {
 }
 
 #content-core .tile .tile-header {
+    display: none;
     position: absolute;
     top: 0;
     right: 0;
+}
+
+#content-core .tile:hover .tile-header {
+    display: block;
 }

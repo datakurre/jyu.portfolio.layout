@@ -14,7 +14,8 @@ jQuery(function($) {
     });
   };
   // Init overlay forms for tiles
-  $('a.tile-add, a.tile-edit, a.tile-delete').each(function() {
+  $('#portfolio-contentmenu-tilefactories li a, '
+    +'a.tile-edit, a.tile-delete').each(function() {
     $($(this).prepOverlay({
       subtype: 'ajax',
       cssclass: 'content',

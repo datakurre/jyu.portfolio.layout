@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 """Reminds of, but is not Deco, just a poor substitute"""
+
 from StringIO import StringIO
 
 import re
-from types import IntType
 
 from lxml import etree
 from five import grok
 
-from zope import schema
-from zope.interface import alsoProvides
-from zope.security import checkPermission
 from zope.component import getUtility
 
 from zope.annotation.interfaces import IAnnotatable
@@ -18,62 +15,17 @@ from zope.annotation.interfaces import IAnnotatable
 from zope.lifecycleevent import ObjectAddedEvent,\
     ObjectModifiedEvent, ObjectRemovedEvent
 
-from plone.directives import form, tiles
-from plone.tiles.interfaces import\
-    ITileType, ITile, IPersistentTile
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+
+from plone.tiles.interfaces import ITileType, ITile, IPersistentTile
 from plone.tiles.data import encode
 
-from jyu.portfolio.layout.behaviors import IHasLayout, ILayout
+from jyu.portfolio.layout.behaviors import ILayout
 
 from zope.i18nmessageid import MessageFactory as ZopeMessageFactory
 _ = ZopeMessageFactory("jyu.portfolio.layout")
 
 NAMESPACES = {"html": "http://www.w3.org/1999/xhtml"}
-
-
-class IPositioned(form.Schema):
-    """Text Snippet Tile"""
-    form.mode(target="hidden")
-    target = schema.TextLine(
-        title=_(u"textsnippet_target_label",
-                default="Target element"),
-        default=u"",
-        required=False
-        )
-    form.mode(position="hidden")
-    position = schema.Int(
-        title=_(u"textsnippet_position_label",
-                default="Target position"),
-        default=-1,
-        required=False
-        )
-alsoProvides(IPositioned, form.IFormFieldProvider)
-
-
-class AddTile(tiles.Tile):
-    tiles.name('jyu.portfolio.layout.tiles.add')
-    tiles.title(_(u"Add Tile"))
-    # tiles.description()
-
-    tiles.context(IHasLayout)
-    tiles.require('zope2.View')
-    # tile.layer()
-    # tiles.schema()
-    tiles.add_permission('cmf.UberManagePortal')  # nonexisting
-
-    def update(self):
-        data = StringIO(ILayout(self.context).content)
-        root = etree.parse(data)
-        tile = root.xpath("//*[@id='%s']" % self.id)[0]
-        self.target = tile.getprevious().get("id")
-
-    @property
-    def visible(self):
-        # You'd think you could use
-        # tiles.require('cmf.ModifyPortalContent'), but it doesn't
-        # really work, insufficient permissions doen't hide tile, but
-        # renders "You are not authorized to..." :/
-        return checkPermission('cmf.ModifyPortalContent', self.context)
 
 
 @grok.subscribe(ITile, ObjectAddedEvent)
@@ -82,47 +34,43 @@ def addTile(tile, event):
 
     data = StringIO(ILayout(tile.context).content)
     root = etree.parse(data)
-
+    
     head = root.xpath("html:head", namespaces=NAMESPACES)[0]
-    columns = root.xpath(
+
+    rows = root.xpath(
         ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
-         "' sortable ')]"), namespaces=NAMESPACES)
+         "' row ')]"), namespaces=NAMESPACES)
+    for row in rows:
+        columns = row.xpath(
+            ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
+             "' cell ')]"), namespaces=NAMESPACES)
+        for column in reversed(columns):
 
-    if tile.data.get("target", None):
-        candidates = root.xpath("//*[@id='%s']" % tile.data["target"])
-        if candidates:
-            target = candidates[0]
-        else:
-            target = columns[0]
-    else:
-        target = columns[0]
-    if "target" in tile.data:
-        del tile.data["target"]
+            link = etree.Element("link")
+            link.set("rel", "tile")
+            link.set("target", tile.id)
+            link.set("href", u"%s/%s" % (tile.__name__, tile.id))
 
-    link = etree.Element("link")
-    link.set("rel", "tile")
-    link.set("target", tile.id)
-    link.set("href", u"%s/%s" % (tile.__name__, tile.id))
-    head.append(link)
+            head.append(link)
 
-    div = etree.Element("div")
-    div.set("id", tile.id)
-    div.set("class", "tile %s" % tile.__name__.replace(".", "-"))
+            div = etree.Element("div")
+            div.set("id", tile.id)
 
-    position = tile.data.get("position", None)
-    if type(position) == IntType\
-            and position >= 0 and position < len(target):
-        target.insert(position, div)
-    else:
-        target.append(div)
-    if "position" in tile.data:
-        del tile.data["position"]
+            classname = getUtility(IIDNormalizer).normalize(tile.__name__)
+            div.set("class", "tile %s" % classname)
 
-    if not IPersistentTile.providedBy(tile):
-        link.set("href", link.get("href")\
-            + u"?" + encode(tile.data, schema))
+            column.insert(0, div)
 
-    ILayout(tile.context).content = etree.tostring(root)
+            if not IPersistentTile.providedBy(tile):
+                link.set("href", link.get("href")
+                         + u"?" + encode(tile.data, schema))
+            try:
+                ILayout(tile.context).content = etree.tostring(root)
+            except AttributeError:
+                # layout is read only
+                pass
+            break
+        break
 
 
 class MoveTile(grok.View):
@@ -150,7 +98,7 @@ class MoveTile(grok.View):
 
             columns = root.xpath(
                 ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
-                 "' sortable ')]"), namespaces=NAMESPACES)
+                 "' cell ')]"), namespaces=NAMESPACES)
             
             for tile in root.xpath("//*[@id='%s']" % self.tile_id):
                 modified = False
@@ -222,23 +170,23 @@ class MoveTile(grok.View):
 
         if self.request.get("HTTP_X_REQUESTED_WITH", None) == "XMLHttpRequest":
             return u""
+
         return self.request.response.redirect(self.context.absolute_url())
 
 
 @grok.subscribe(ITile, ObjectModifiedEvent)
 def modifyTile(tile, event):
-    if "target" in tile.data:
-        del tile.data["target"]
-    if "position" in tile.data:
-        del tile.data["position"]
+    # updates transient tiles
     if not IPersistentTile.providedBy(tile):
         schema = getUtility(ITileType, name=tile.__name__).schema
         data = StringIO(ILayout(tile.context).content)
         root = etree.parse(data)
+
         link = root.xpath("//html:link[@target='%s']"\
             % tile.id, namespaces=NAMESPACES)
         href = u"%s/%s" % (tile.__name__, tile.id)\
             + u"?" + encode(tile.data, schema)
+
         if len(link) and link[0].get("href") != href:
             link[0].set("href", href)
             try:

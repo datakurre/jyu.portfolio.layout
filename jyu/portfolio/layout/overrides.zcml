@@ -18,7 +18,7 @@
      name="add-tile"
      for="zope.annotation.interfaces.IAnnotatable"
      permission="cmf.ModifyPortalContent"
-     class=".traversal.AddPositionedTile"
+     class=".traversal.AddAvailableTile"
      template="add-tile.pt"
      />
 
@@ -29,8 +29,7 @@
           plone.tiles.interfaces.ITileType"
      provides="plone.app.tiles.interfaces.ITileAddView"
      factory=".add-tile.ReturningAddView"
-     />
-  
+     />  
   <class class=".add-tile.DefaultAddView">
     <require
        permission="cmf.ModifyPortalContent"
@@ -46,7 +45,6 @@
      provides="plone.app.tiles.interfaces.ITileEditView"
      factory=".edit-tile.ReturningEditView"
      />
-  
   <class class=".edit-tile.DefaultEditView">
     <require
        permission="cmf.ModifyPortalContent"

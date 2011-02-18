@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Dummy copy from plone.app.tiles.browser.edit.
-
-Modifies redirect after saving to target the context instead of edit
-view.
-"""
+"""Enhances original AddFOrm to redirect after creation back to the context"""
 
 from z3c.form import button
 
@@ -50,31 +46,13 @@ class ReturningEditForm(DefaultEditForm):
 
         # Look up the URL - we need to do this after we've set the data to
         # correctly account for transient tiles
-#       tileURL = absoluteURL(tile, self.request)
         contextURL = absoluteURL(tile.context, self.request)
-#       tileRelativeURL = tileURL
-
-#       if tileURL.startswith(contextURL):
-#           tileRelativeURL = '.' + tileURL[len(contextURL):]
 
         notify(ObjectModifiedEvent(tile))
 
         # Get the tile URL, possibly with encoded data
         IStatusMessage(self.request).addStatusMessage(_(u"Tile saved",), type=u'info')
 
-#       # Calculate the edit URL and append some data in a JSON structure,
-#       # to help the UI know what to do.
-#
-#       url = getEditTileURL(tile, self.request)
-#
-#       tileDataJson = {}
-#       tileDataJson['action'] = "save"
-#       tileDataJson['mode'] = "edit"
-#       tileDataJson['url'] = tileRelativeURL
-#       tileDataJson['tile_type'] = typeName
-#       tileDataJson['id'] = tile.id
-
-#       url = appendJSONData(url, 'tiledata', tileDataJson)
         self.request.response.redirect(contextURL)
 
 

@@ -39,12 +39,6 @@
                 </div>
 
                 <div class="formControls">
-                  <input name="target" type="hidden"
-                         tal:attributes="value request/target|nothing"
-                         />
-                  <input name="position" type="hidden"
-                         tal:attributes="value request/position|string:0"
-                         />
                     <input class="standalone"
                           type="submit"
                           value="Create"

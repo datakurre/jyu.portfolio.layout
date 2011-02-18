@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Dummy copy from plone.app.tiles.browser.add.
-
-Modifies redirect after creation to target the context instead of edit
-view.
-"""
+"""Enhances original AddFOrm to redirect after creation back to the context"""
 
 from z3c.form import button
 
@@ -53,10 +49,6 @@ class ReturningAddForm(DefaultAddForm):
         # correctly account for transient tiles
         tileURL = absoluteURL(tile, self.request)
         contextURL = absoluteURL(tile.context, self.request)
-#       tileRelativeURL = tileURL
-
-#       if tileURL.startswith(contextURL):
-#           tileRelativeURL = '.' + tileURL[len(contextURL):]
 
         notify(ObjectCreatedEvent(tile))
         notify(ObjectAddedEvent(tile, self.context, self.tileId))
@@ -67,19 +59,6 @@ class ReturningAddForm(DefaultAddForm):
                 type=u'info',
             )
 
-#       # Calculate the edit URL and append some data in a JSON structure,
-#       # to help the UI know what to do.
-#
-#       url = getEditTileURL(tile, self.request)
-#
-#       tileDataJson = {}
-#       tileDataJson['action'] = "save"
-#       tileDataJson['mode'] = "add"
-#       tileDataJson['url'] = tileRelativeURL
-#       tileDataJson['tile_type'] = typeName
-#       tileDataJson['id'] = tile.id
-#
-#       url = appendJSONData(url, 'tiledata', tileDataJson)
         self.request.response.redirect(contextURL)
 
 

@@ -33,12 +33,14 @@
            title="Edit" i18n:attributes="title"
            tal:attributes="href string:@@edit-tile/${view/__name__}/${id}"
            ><img alt="Edit" i18n:attributes="alt"
-                 tal:attributes="src context/edit.png/absolute_url"/></a>
+                 tal:attributes="src context/edit.png/absolute_url"
+                 /><span i18n:translate="">Edit</span></a>
         <a class="tile-delete" href="#" tal:define="id view/id"
            title="Delete" i18n:attributes="title"
            tal:attributes="href string:@@delete-tile?type=${view/__name__}&amp;id=${id}"
            ><img alt="Delete" i18n:attributes="alt"
-                 tal:attributes="src context/delete_icon.png/absolute_url"/></a>
+                 tal:attributes="src context/delete_icon.png/absolute_url"
+                 /><span i18n:translate="">Delete</span></a>
       </span>
       <metal:content define-slot="content">
         <p>HERE BE TILE</p>

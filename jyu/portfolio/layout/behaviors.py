@@ -7,11 +7,26 @@ from rwproperty import getproperty, setproperty
 from five import grok
 
 from zope import schema
-from zope.interface import Interface, alsoProvides
+from zope.component import getUtility, getAllUtilitiesRegisteredFor
+from zope.security import checkPermission
 
+from zope.interface import Interface, alsoProvides
+from zope.publisher.interfaces import NotFound
+from zope.publisher.interfaces.browser import IBrowserRequest
+
+from plone.memoize import view
 from plone.directives import form
 
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+
+from zope.app.publisher.browser.menu import BrowserMenu
+from zope.app.publisher.browser.menu import BrowserSubMenuItem
+from zope.app.publisher.interfaces.browser import IBrowserMenu
+
+from plone.tiles.interfaces import ITileType
+
 from plone.app.layout.globals.interfaces import IViewView
+from plone.app.contentmenu.interfaces import IContentMenuItem
 
 from plone.dexterity.interfaces import IDexterityContent
 
@@ -27,19 +42,17 @@ DEFAULT_LAYOUT = open(
 
 
 class IHasLayout(Interface):
-    """Marker interface for an object with a layout
-    """
+    """Marker interface for an object with a layout"""
 
 
 class ILayout(form.Schema):
-    """Behavior interface to make a type support layout.
-    """
+    """Behavior interface to make a type support layout."""
     form.mode(content='hidden')
     content = schema.Text(
         title=_(u"layout_content_label",
                 default=u"Content"),
         description=_(u"layout_content_description",
-                          u"Layout and content of the object"),
+                      u"Describes content and layout of the object"),
         required=False,
         default=DEFAULT_LAYOUT,
         )
@@ -53,7 +66,7 @@ class LayoutAdapter(grok.Adapter):
 
     def __init__(self, context):
         self.context = context
-    
+
     @getproperty
     def content(self):
         if hasattr(self.context, "content"):
@@ -80,3 +93,94 @@ class View(grok.View):
 
     def render(self):
         return ILayout(self.context).content
+
+
+class FactoriesSubMenuItem(grok.MultiAdapter, BrowserSubMenuItem):
+    grok.name("portfolio.contentmenu.tilefactories")
+    grok.provides(IContentMenuItem)
+    grok.adapts(IHasLayout, IBrowserRequest)
+
+    submenuId = 'portfolio_contentmenu_tilefactory'
+    order = 35
+
+    title = _(u'layout_add_new_label', default=u'Add new tile\u2026')
+    description = _(u'layout_add_new_help',
+                    default=u'Add new tile onto this page')
+
+    @property
+    def extra(self):
+        return {'id': 'portfolio-contentmenu-tilefactories'}
+
+    @property
+    def action(self):
+        return '%s/@@add-tile' % self.context.absolute_url()
+
+    @view.memoize
+    def available(self):
+        types = []
+        for type_ in getAllUtilitiesRegisteredFor(ITileType):
+            if checkPermission(type_.add_permission, self.context):
+                try:
+                    if self.request.traverseName(
+                        self.context, "@@" + type_.__name__):
+                        types.append(type_)
+                except NotFound:
+                    continue
+        return len(types) > 0
+
+    def selected(self):
+        return False
+
+#    @memoize
+#    def _itemsToAdd(self):
+#      context=self.context_state.folder()
+#      return [(context, fti) for fti in self._addableTypesInContext(context)]
+#
+#    def _addableTypesInContext(self, addContext):
+#        allowed_types = _allowedTypes(self.request, addContext)
+#        constrain = IConstrainTypes(addContext, None)
+#        if constrain is None:
+#            return allowed_types
+#      else:
+#        locallyAllowed = constrain.getLocallyAllowedTypes()
+#        return [fti for fti in allowed_types if fti.getId() in locallyAllowed]
+
+
+class FactoriesMenu(grok.GlobalUtility, BrowserMenu):
+    grok.name("portfolio_contentmenu_tilefactory")
+    grok.provides(IBrowserMenu)
+
+    def tileSortKey(self, type1, type2):
+        return cmp(type1.title, type2.title)
+
+    def __init__(self):
+        super(FactoriesMenu, self).__init__(self)
+
+    def getMenuItems(self, context, request):
+        """Return menu item entries in a TAL-friendly form."""
+
+        types = []
+        for type_ in getAllUtilitiesRegisteredFor(ITileType):
+            if checkPermission(type_.add_permission, context):
+                try:
+                    if request.traverseName(
+                        context, "@@" + type_.__name__):
+                        types.append(type_)
+                except NotFound:
+                    continue
+        types.sort(lambda x, y: cmp(x.title, y.title))
+
+        normalizer = getUtility(IIDNormalizer)
+        return [{
+                'title': type_.title,
+                'description': type_.description,
+                'action': "%s/@@add-tile?form.button.Create=1&type=%s"\
+                    % (context.absolute_url(), type_.__name__),
+                'selected': False,
+                'icon': None,
+                'extra': {
+                    'id': "add-%s" % normalizer.normalize(type_.__name__),
+                    'separator': None, 'class': ''
+                    },
+                'submenu': None,
+                } for type_ in types]

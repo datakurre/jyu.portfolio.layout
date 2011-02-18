@@ -1,10 +1,8 @@
-.documentEditable #content-core .cell.sortable > div:hover,
-.documentEditable #content-core .cell > .sortable > div:hover {
+.documentEditable #content-core .cell.sortable > div:hover {
     outline: 2px dashed #ddd;
 }
 
-.documentEditable #content-core .cell.sortable > div.dragged,
-.documentEditable #content-core .cell > .sortable > div.dragged {
+.documentEditable #content-core .cell.sortable > div.dragged {
     background-color: white;
     border: thin solid #ddd;
     box-shadow: 0 0 2em #666;
@@ -12,8 +10,7 @@
     -webkit-box-shadow: 0 0 2em #666;
 }
 
-.documentEditable #content-core .cell.sortable > div.dragged:hover,
-.documentEditable #content-core .cell > .sortable > div.dragged:hover {
+.documentEditable #content-core .cell.sortable > div.dragged:hover {
     outline: none;
 }
 
