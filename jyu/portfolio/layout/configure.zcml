@@ -15,12 +15,12 @@
   <i18n:registerTranslations directory="locales" />
 
   <browser:page
-      for="jyu.portfolio.layout.behaviors.IHasLayout"
-      name="jyu-portfolio-tile"
-      template="tile.pt"
-      permission="zope2.View"
-      />
-
+     for="jyu.portfolio.layout.behaviors.IHasLayout"
+     name="remind-macros"
+     template="tile.pt"
+     permission="zope2.View"
+     />
+  
   <plone:behavior
      title="Layout support"
      description="Adds layout support to your content type"
@@ -29,7 +29,7 @@
      marker=".behaviors.IHasLayout"
      for="plone.dexterity.interfaces.IDexterityContent"
      />
-
+  
   <genericsetup:registerProfile
      name="default"
      title="ePortfolio Layout"
@@ -38,7 +38,7 @@
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
-     
+  
   <unconfigure>
     <!-- Unconfigure demo-tiles from plone.app.tiles -->
     <plone:tile

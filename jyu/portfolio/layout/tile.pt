@@ -8,62 +8,49 @@
       <span class="tile-header"
             tal:define="mtool context/@@plone_tools/membership"
             tal:condition="python:mtool.checkPermission('Modify portal content', context)">
-        <metal:content define-slot="tile-header"/>
-        <a class="tile-move-left" href="#" tal:define="id view/id"
-           title="Move left" i18n:attributes="title"
-           tal:attributes="href string:@@move-tile?tile=${view/id}&direction=left"
-           ><img alt="Move left" i18n:attributes="alt"
-                 tal:attributes="src context/arrowLeft.png/absolute_url"/></a>
-        <a class="tile-move-right" href="#" tal:define="id view/id"
-           title="Move right" i18n:attributes="title"
-           tal:attributes="href string:@@move-tile?tile=${view/id}&direction=right"
-           ><img alt="Move right" i18n:attributes="alt"
-                 tal:attributes="src context/arrowRight.png/absolute_url"/></a>
-        <a class="tile-move-up" href="#" tal:define="id view/id"
-           title="Move up" i18n:attributes="title"
-           tal:attributes="href string:@@move-tile?tile=${view/id}&direction=up"
-           ><img alt="Move up" i18n:attributes="alt"
-                 tal:attributes="src context/arrowUp.png/absolute_url"/></a>
-        <a class="tile-move-down" href="#" tal:define="id view/id"
-           title="Move down" i18n:attributes="title"
-           tal:attributes="href string:@@move-tile?tile=${view/id}&direction=down"
-           ><img alt="Move down" i18n:attributes="alt"
-                 tal:attributes="src context/arrowDown.png/absolute_url"/></a>
-        <a class="tile-edit" href="#" tal:define="id view/id"
-           title="Edit" i18n:attributes="title"
-           tal:attributes="href string:@@edit-tile/${view/__name__}/${id}"
-           ><img alt="Edit" i18n:attributes="alt"
-                 tal:attributes="src context/edit.png/absolute_url"
-                 /><span i18n:translate="">Edit</span></a>
-        <a class="tile-delete" href="#" tal:define="id view/id"
-           title="Delete" i18n:attributes="title"
-           tal:attributes="href string:@@delete-tile?type=${view/__name__}&amp;id=${id}"
-           ><img alt="Delete" i18n:attributes="alt"
-                 tal:attributes="src context/delete_icon.png/absolute_url"
-                 /><span i18n:translate="">Delete</span></a>
+        <metal:content define-slot="header"/>
       </span>
       <metal:content define-slot="content">
         <p>HERE BE TILE</p>
       </metal:content>
     </metal:tile>
-    <metal:tile define-macro="tile-removable">
-      <span class="tile-header"
-            tal:define="mtool context/@@plone_tools/membership"
-            tal:condition="python:mtool.checkPermission('Modify portal content', context)">
-        <metal:content define-slot="tile-header"/>
-        <a class="tile-delete" href="#" tal:define="id view/id"
-           tal:attributes="href string:@@delete-tile?type=${view/__name__}&amp;id=${id}">
-          <img alt="Delete" i18n:attributes="alt"
-               tal:attributes="src context/delete_icon.png/absolute_url"/></a>
-      </span>
-      <metal:content define-slot="content">
-        <p>HERE BE TILE</p>
-      </metal:content>
-    </metal:tile>
-    <metal:tile define-macro="tile-permanent">
-      <metal:content define-slot="content">
-        <p>HERE BE TILE</p>
-      </metal:content>
-    </metal:tile>
+    <metal:movable define-macro="movable">
+      <a class="tile-move-left" href="#" tal:define="id view/id"
+         title="Move left" i18n:attributes="title"
+         tal:attributes="href string:@@move-tile?tile=${view/id}&direction=left"
+         ><img alt="Move left" i18n:attributes="alt"
+               tal:attributes="src context/arrowLeft.png/absolute_url"/></a>
+      <a class="tile-move-right" href="#" tal:define="id view/id"
+         title="Move right" i18n:attributes="title"
+         tal:attributes="href string:@@move-tile?tile=${view/id}&direction=right"
+         ><img alt="Move right" i18n:attributes="alt"
+               tal:attributes="src context/arrowRight.png/absolute_url"/></a>
+      <a class="tile-move-up" href="#" tal:define="id view/id"
+         title="Move up" i18n:attributes="title"
+         tal:attributes="href string:@@move-tile?tile=${view/id}&direction=up"
+         ><img alt="Move up" i18n:attributes="alt"
+               tal:attributes="src context/arrowUp.png/absolute_url"/></a>
+      <a class="tile-move-down" href="#" tal:define="id view/id"
+         title="Move down" i18n:attributes="title"
+         tal:attributes="href string:@@move-tile?tile=${view/id}&direction=down"
+         ><img alt="Move down" i18n:attributes="alt"
+               tal:attributes="src context/arrowDown.png/absolute_url"/></a>
+    </metal:movable>
+    <metal:configurable define-macro="configurable">
+      <a class="tile-configure" href="#" tal:define="id view/id"
+         title="Configure" i18n:attributes="title"
+         tal:attributes="href string:@@edit-tile/${view/__name__}/${id}"
+         ><img alt="Configure" i18n:attributes="alt"
+               tal:attributes="src context/maintenance_icon.png/absolute_url"
+               /><span i18n:translate="">Configure</span></a>
+    </metal:configurable>
+    <metal:removable define-macro="removable">
+      <a class="tile-delete" href="#" tal:define="id view/id"
+         title="Delete" i18n:attributes="title"
+         tal:attributes="href string:@@delete-tile?type=${view/__name__}&amp;id=${id}"
+         ><img alt="Delete" i18n:attributes="alt"
+               tal:attributes="src context/delete_icon.png/absolute_url"
+               /><span i18n:translate="">Delete</span></a>
+    </metal:removable>
   </body>
 </html>
