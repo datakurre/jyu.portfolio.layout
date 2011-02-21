@@ -16,7 +16,7 @@
 
   <browser:page
      for="jyu.portfolio.layout.behaviors.IHasLayout"
-     name="remind-macros"
+     name="remind-tile"
      template="tile.pt"
      permission="zope2.View"
      />
