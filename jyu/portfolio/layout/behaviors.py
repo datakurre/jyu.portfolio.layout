@@ -51,7 +51,7 @@ class IHasLayout(Interface):
 def checkValidXHTML(value):
     """Try to given parse value."""
     try:
-        if etree.fromstring(value):
+        if len(etree.fromstring(value)):
             return True
     except:
         pass
