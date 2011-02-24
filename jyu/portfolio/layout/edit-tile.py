@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Enhances original AddFOrm to redirect after creation back to the context"""
 
+from types import DictType
+
 from z3c.form import button
 
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -9,6 +11,8 @@ from zope.event import notify
 from zope.traversing.browser.absoluteurl import absoluteURL
 
 from Products.statusmessages.interfaces import IStatusMessage
+
+from Products.CMFCore.utils import getToolByName
 
 from plone.tiles.interfaces import ITileDataManager
 
@@ -28,6 +32,16 @@ class ReturningEditForm(DefaultEditForm):
 
     buttons = DefaultEditForm.buttons.select('save', 'cancel')
     handlers = DefaultEditForm.handlers.copy()
+
+    def getContent(self):
+        content = super(ReturningEditForm, self).getContent()
+        if type(content) == DictType:
+            content.update({
+                    "portal_url": getToolByName(self.context, "portal_url"),
+                    "portal_skins": self.context.restrictedTraverse("portal_skins"),
+                    "wysiwyg_support": self.context.restrictedTraverse("wysiwyg_support")
+                    })
+        return content
 
     @button.buttonAndHandler(_('Save'), name='save')
     def handleSave(self, action):

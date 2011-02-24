@@ -4,13 +4,16 @@ import os.path
 
 from rwproperty import getproperty, setproperty
 
+from lxml import etree
+
 from five import grok
 
 from zope import schema
 from zope.component import getUtility, getAllUtilitiesRegisteredFor
 from zope.security import checkPermission
 
-from zope.interface import Interface, alsoProvides
+from zope.interface import Interface
+# from zope.interfaces import alsoProvides
 from zope.publisher.interfaces import NotFound
 from zope.publisher.interfaces.browser import IBrowserRequest
 
@@ -45,20 +48,31 @@ class IHasLayout(Interface):
     """Marker interface for an object with a layout"""
 
 
+def checkValidXHTML(value):
+    """Try to given parse value."""
+    try:
+        if etree.fromstring(value):
+            return True
+    except:
+        pass
+    return False
+
+
 class ILayout(form.Schema):
     """Behavior interface to make a type support layout."""
-    form.mode(content='hidden')
     content = schema.Text(
         title=_(u"layout_content_label",
                 default=u"Content"),
         description=_(u"layout_content_description",
-                      u"Describes content and layout of the object"),
+                      u"Describes content and layout of the object in XHTML."),
+        constraint=checkValidXHTML,
         required=False,
         default=DEFAULT_LAYOUT,
         )
-alsoProvides(ILayout, form.IFormFieldProvider)
+### NOTE: Content field is hidden to prevent accidental edits.
+# alsoProvides(ILayout, form.IFormFieldProvider)
 
-
+ 
 class LayoutAdapter(grok.Adapter):
     """Adapts dexterity content for layout"""
     grok.provides(ILayout)

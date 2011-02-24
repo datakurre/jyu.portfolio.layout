@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """Reminds of, but is not Deco, just a poor substitute"""
 
-from StringIO import StringIO
-
 import re
 
 from lxml import etree
@@ -32,8 +30,8 @@ NAMESPACES = {"html": "http://www.w3.org/1999/xhtml"}
 def addTile(tile, event):
     schema = getUtility(ITileType, name=tile.__name__).schema
 
-    data = StringIO(ILayout(tile.context).content)
-    root = etree.parse(data)
+    data = ILayout(tile.context).content
+    root = etree.fromstring(data)
     
     head = root.xpath("html:head", namespaces=NAMESPACES)[0]
 
@@ -42,7 +40,7 @@ def addTile(tile, event):
          "' row ')]"), namespaces=NAMESPACES)
     for row in rows:
         columns = row.xpath(
-            ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
+            ("html:div[contains(concat(' ', normalize-space(@class), ' '), "
              "' cell ')]"), namespaces=NAMESPACES)
         for column in reversed(columns):
 
@@ -65,7 +63,8 @@ def addTile(tile, event):
                 link.set("href", link.get("href")
                          + u"?" + encode(tile.data, schema))
             try:
-                ILayout(tile.context).content = etree.tostring(root)
+                ILayout(tile.context).content =\
+                    etree.tostring(root, pretty_print=True)
             except AttributeError:
                 # layout is read only
                 pass
@@ -93,8 +92,8 @@ class MoveTile(grok.View):
 
     def render(self):
         if self.tile_id and self.direction:
-            data = StringIO(ILayout(self.context).content)
-            root = etree.parse(data)
+            data = ILayout(self.context).content
+            root = etree.fromstring(data)
 
             columns = root.xpath(
                 ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
@@ -138,15 +137,16 @@ class MoveTile(grok.View):
 
                 try:
                     if modified:
-                        ILayout(self.context).content = etree.tostring(root)
+                        ILayout(self.context).content =\
+                            etree.tostring(root, pretty_print=True)
                 except AttributeError:
                     # layout is read only
                     pass
                 break
 
         elif self.tile_id and self.target_id:
-            data = StringIO(ILayout(self.context).content)
-            root = etree.parse(data)
+            data = ILayout(self.context).content
+            root = etree.fromstring(data)
 
             for tile in root.xpath("//*[@id='%s']" % self.tile_id):
                 for target in root.xpath("//*[@id='%s']" % self.target_id):
@@ -161,7 +161,8 @@ class MoveTile(grok.View):
                     else:
                         target.append(tile)
                     try:
-                        ILayout(self.context).content = etree.tostring(root)
+                        ILayout(self.context).content =\
+                            etree.tostring(root, pretty_print=True)
                     except AttributeError:
                         # layout is read only
                         pass
@@ -179,8 +180,8 @@ def modifyTile(tile, event):
     # updates transient tiles
     if not IPersistentTile.providedBy(tile):
         schema = getUtility(ITileType, name=tile.__name__).schema
-        data = StringIO(ILayout(tile.context).content)
-        root = etree.parse(data)
+        data = ILayout(tile.context).content
+        root = etree.fromstring(data)
 
         link = root.xpath("//html:link[@target='%s']"\
             % tile.id, namespaces=NAMESPACES)
@@ -190,7 +191,8 @@ def modifyTile(tile, event):
         if len(link) and link[0].get("href") != href:
             link[0].set("href", href)
             try:
-                ILayout(tile.context).content = etree.tostring(root)
+                ILayout(tile.context).content =\
+                    etree.tostring(root, pretty_print=True)
             except AttributeError:
                 # layout is read only
                 pass
@@ -201,8 +203,8 @@ def removeTile(tile, event):
     context = event.oldParent
     tile_id = event.oldName
 
-    data = StringIO(ILayout(context).content)
-    root = etree.parse(data)
+    data = ILayout(context).content
+    root = etree.fromstring(data)
 
     for removable in root.xpath("//*[@target='%s']" % tile_id):
         removable.getparent().remove(removable)
@@ -211,7 +213,8 @@ def removeTile(tile, event):
         removable.getparent().remove(removable)
 
     try:
-        ILayout(context).content = etree.tostring(root)
+        ILayout(context).content =\
+            etree.tostring(root, pretty_print=True)
     except AttributeError:
         # layout is read only
         pass

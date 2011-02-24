@@ -1,7 +1,7 @@
 /*globals jQuery,common_content_filter,kukit*/
 jQuery(function($) {
   var init = function(el) {
-    $(el).find("#content-core form").one("focus", function() {
+    $(el).find("#content-core form, .pb-ajax > div > form").one("focus", function() {
       // plugins below may not exist on all setups
       try { $(this).find("div[id$=autocomplete]").autocomplete_z3cform(); } catch (err) {};
       // autocomplete-plugin must be inited before placeholder-plugin
@@ -15,7 +15,7 @@ jQuery(function($) {
     });
   };
   // Init overlay forms for tiles
-  $('#remind-contentmenu-tiles li a, a.tile-edit, a.tile-delete').each(function() {
+  $('#remind-contentmenu-tiles li a, a.tile-configure, a.tile-delete').each(function() {
     $($(this).prepOverlay({
       subtype: 'ajax',
       cssclass: 'content',
