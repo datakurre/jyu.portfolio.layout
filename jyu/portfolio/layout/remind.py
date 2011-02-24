@@ -59,7 +59,7 @@ def addTile(tile, event):
 
             column.insert(0, div)
 
-            if not IPersistentTile.providedBy(tile):
+            if not IPersistentTile.providedBy(tile) and schema:
                 link.set("href", link.get("href")
                          + u"?" + encode(tile.data, schema))
             try:
@@ -178,8 +178,8 @@ class MoveTile(grok.View):
 @grok.subscribe(ITile, ObjectModifiedEvent)
 def modifyTile(tile, event):
     # updates transient tiles
-    if not IPersistentTile.providedBy(tile):
-        schema = getUtility(ITileType, name=tile.__name__).schema
+    schema = getUtility(ITileType, name=tile.__name__).schema
+    if not IPersistentTile.providedBy(tile) and schema:
         data = ILayout(tile.context).content
         root = etree.fromstring(data)
 
