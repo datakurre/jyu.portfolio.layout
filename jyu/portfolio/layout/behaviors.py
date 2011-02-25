@@ -66,7 +66,7 @@ class ILayout(form.Schema):
         description=_(u"layout_content_description",
                       u"Describes content and layout of the object in XHTML."),
         constraint=checkValidXHTML,
-        required=False,
+        required=True,
         default=DEFAULT_LAYOUT,
         )
 ### NOTE: Content field is hidden to prevent accidental edits.

@@ -8,13 +8,37 @@ form#delete .field {
 
 #content-core .tile .tile-header {
     background: white;
-    padding: 0.25em 0.25em 0.25em 0.5em;
+    padding: 0.25em 0.5em 0.25em 0.5em !important;
     display: none;
     position: absolute;
     top: 0;
     right: 0;
 }
 
+#content-core .tile .tile-header img {
+    float: none !important;
+    margin: 0 !important;
+}
+
+#content-core .tile .tile-header a.tile-move-up,
+#content-core .tile .tile-header a.tile-move-right,
+#content-core .tile .tile-header a.tile-move-down,
+#content-core .tile .tile-header a.tile-move-left {
+    border: none;
+}
+
+#content-core .tile .tile-header .tile-move-up img,
+#content-core .tile .tile-header .tile-move-right img,
+#content-core .tile .tile-header .tile-move-down img,
+#content-core .tile .tile-header .tile-move-left img {
+    vertical-align: middle;
+    padding: 0 0.25em;
+}
+
 #content-core .tile:hover .tile-header {
     display: block;
+    border-left: 2px dashed #ddd;
+    border-bottom: 2px dashed #ddd;
+    outline-right: 2px dashed #ddd;
+    outline-top: 2px dashed #ddd;
 }

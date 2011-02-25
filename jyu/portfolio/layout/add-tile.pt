@@ -1,5 +1,5 @@
 <metal:block use-macro="context/@@tile-form-layout/macros/master">
-    <metal:block fill-slot="main">
+    <metal:block fill-slot="main" i18n:domain="plone.app.tiles">
         <h1 class="documentFirstHeading" i18n:translate="heading_add_new_tile">Create tile</h1>
 
         <p class="documentDescription"

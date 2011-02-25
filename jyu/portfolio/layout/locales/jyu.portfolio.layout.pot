@@ -1,0 +1,77 @@
+# -*- coding: utf-8 -*-
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2011-02-25 15:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: jyu.portfolio.layout\n"
+
+#: jyu/portfolio/layout/tile.pt:40
+msgid "Configure"
+msgstr ""
+
+#: jyu/portfolio/layout/tile.pt:48
+msgid "Delete"
+msgstr ""
+
+#: jyu/portfolio/layout/tile.pt:33
+msgid "Move down"
+msgstr ""
+
+#: jyu/portfolio/layout/tile.pt:18
+msgid "Move left"
+msgstr ""
+
+#: jyu/portfolio/layout/tile.pt:23
+msgid "Move right"
+msgstr ""
+
+#: jyu/portfolio/layout/tile.pt:28
+msgid "Move up"
+msgstr ""
+
+#: jyu/portfolio/layout/add-tile.py:31
+#: jyu/portfolio/layout/edit-tile.py:46
+msgid "Save"
+msgstr ""
+
+#: jyu/portfolio/layout/add-tile.py:57
+msgid "Tile created at ${url}"
+msgstr ""
+
+#: jyu/portfolio/layout/edit-tile.py:68
+msgid "Tile saved"
+msgstr ""
+
+#. Default: "Add new tile onto this page"
+#: jyu/portfolio/layout/behaviors.py:121
+msgid "layout_add_new_help"
+msgstr ""
+
+#. Default: "Place new…"
+#: jyu/portfolio/layout/behaviors.py:120
+msgid "layout_add_new_label"
+msgstr ""
+
+#. Default: "Describes content and layout of the object in XHTML."
+#: jyu/portfolio/layout/behaviors.py:66
+msgid "layout_content_description"
+msgstr ""
+
+#. Default: "Content"
+#: jyu/portfolio/layout/behaviors.py:64
+msgid "layout_content_label"
+msgstr ""
+

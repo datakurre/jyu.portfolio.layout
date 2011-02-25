@@ -69,6 +69,13 @@ class ReturningEditForm(DefaultEditForm):
 
         self.request.response.redirect(contextURL)
 
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        typeName = self.tileType.__name__
+        tile = self.context.restrictedTraverse('@@%s/%s' % (typeName, self.tileId,))
+        contextURL = absoluteURL(tile.context, self.request)
+        self.request.response.redirect(contextURL)
+
 
 class ReturningEditView(DefaultEditView):
     """This is the default edit view as looked up by the @@edit-tile traveral

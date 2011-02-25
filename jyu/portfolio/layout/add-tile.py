@@ -62,6 +62,15 @@ class ReturningAddForm(DefaultAddForm):
         self.request.response.redirect(contextURL)
 
 
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        typeName = self.tileType.__name__
+        tile = self.context.restrictedTraverse(
+            '@@%s/%s' % (typeName, self.tileId,))
+        contextURL = absoluteURL(tile.context, self.request)
+        self.request.response.redirect(contextURL)
+
+
 class ReturningAddView(DefaultAddView):
     """This is the default add view as looked up by the @@add-tile traversal
     view. It is an unnamed adapter on  (context, request, tileType).

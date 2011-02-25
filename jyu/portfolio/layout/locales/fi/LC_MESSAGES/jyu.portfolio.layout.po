@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2011-02-25 15:10+0000\n"
+"PO-Revision-Date: 2011-02-25 17:08+0200\n"
+"Last-Translator: Asko Soukka <asko.soukka@iki.fi>\n"
+"Language-Team: Jyväskylän yliopisto <plone-support@jyu.fi>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Code: fi\n"
+"Language-Name: Finnish\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: jyu/portfolio/layout/tile.pt:40
+msgid "Configure"
+msgstr "Määritä"
+
+#: jyu/portfolio/layout/tile.pt:48
+msgid "Delete"
+msgstr "Poista"
+
+#: jyu/portfolio/layout/tile.pt:33
+msgid "Move down"
+msgstr "Siirrä alas"
+
+#: jyu/portfolio/layout/tile.pt:18
+msgid "Move left"
+msgstr "Siirrä vasemmalle"
+
+#: jyu/portfolio/layout/tile.pt:23
+msgid "Move right"
+msgstr "Siirrä oikealle"
+
+#: jyu/portfolio/layout/tile.pt:28
+msgid "Move up"
+msgstr "Siirrä ylös"
+
+#: jyu/portfolio/layout/add-tile.py:31
+#: jyu/portfolio/layout/edit-tile.py:46
+msgid "Save"
+msgstr "Tallenna"
+
+#: jyu/portfolio/layout/add-tile.py:57
+msgid "Tile created at ${url}"
+msgstr "Lisäys onnistui (${url})."
+
+#: jyu/portfolio/layout/edit-tile.py:68
+msgid "Tile saved"
+msgstr "Muutokset tallennettu."
+
+#. Default: "Add new tile onto this page"
+#: jyu/portfolio/layout/behaviors.py:121
+msgid "layout_add_new_help"
+msgstr "Asettele tälle sivulle uusi tiili."
+
+#. Default: "Place new…"
+#: jyu/portfolio/layout/behaviors.py:120
+msgid "layout_add_new_label"
+msgstr "Asettele uusi…"
+
+#. Default: "Describes content and layout of the object in XHTML."
+#: jyu/portfolio/layout/behaviors.py:66
+msgid "layout_content_description"
+msgstr "Määrittää sisällön ja sen asettelun XHTML-kuvauksella."
+
+#. Default: "Content"
+#: jyu/portfolio/layout/behaviors.py:64
+msgid "layout_content_label"
+msgstr "Asettelu"
+

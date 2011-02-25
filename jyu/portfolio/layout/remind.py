@@ -103,6 +103,7 @@ class MoveTile(grok.View):
                 modified = False
                 parent = tile.getparent()
 
+                # FIXME: Move between rows not yet implemented!
                 if self.direction == u"up":
                     start = parent.index(tile)
                     position = max(0, start - 1)

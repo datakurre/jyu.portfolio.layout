@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2011-02-25 15:10+0000\n"
+"PO-Revision-Date: 2011-02-25 17:20+0200\n"
+"Last-Translator: Asko Soukka <asko.soukka@iki.fi>\n"
+"Language-Team: Jyväskylän yliopisto <plone-support@jyu.fi>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Code: fi\n"
+"Language-Name: Finnish\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ../plone.app.tiles/plone/app/tiles/browser/add.py:40
+msgid "Add ${name}"
+msgstr "Lisää ${name}"
+
+#: ../plone.app.tiles/plone/app/tiles/browser/add.py:94
+#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:111
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:63
+msgid "Edit ${name}"
+msgstr "Muokkaa ${name}"
+
+#: ../plone.app.tiles/plone/app/tiles/browser/add.py:44
+#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:67
+msgid "Save"
+msgstr "Tallenna"
+
+#: ../plone.app.tiles/plone/app/tiles/browser/add.py:74
+msgid "Tile created at ${url}"
+msgstr "Lisäys onnistui (${url})."
+
+#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:94
+msgid "Tile saved"
+msgstr "Muutokset tallennettu."
+
+#: ../plone.app.tiles/plone/app/tiles/browser/traversal.py:123
+msgid "You must select the type of tile to create"
+msgstr "Valitse, minkä tyyppisen tiilen haluat lisätä."
+
+#: ../plone.app.tiles/plone/app/tiles/browser/traversal.py:130
+msgid "You must specify an id"
+msgstr "Tiilen tunniste (id) täytyy määrittää."
+
+#. Default: "Select the type of tile you want to create"
+#: ../plone.app.tiles/plone/app/tiles/browser/add.pt:5
+msgid "description_add_new_tile"
+msgstr "Valitse, minkä tyyppisen tiilen haluat lisätä."
+
+#. Default: "Enter a tile type and id to delete"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:11
+msgid "description_delete_tile"
+msgstr "Valitse 'Poista' poistaaksesi tiilen tai 'Peruuta' peruaksesi poistamisen."
+
+#. Default: "Create tile"
+#: ../plone.app.tiles/plone/app/tiles/browser/add.pt:3
+msgid "heading_add_new_tile"
+msgstr "Määritä uusi tiili"
+
+#. Default: "Delete tile"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:9
+msgid "heading_delete_tile"
+msgstr "Poista tiili"
+
+#. Default: "A unique identifier for the tile. Used to key tile data."
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:54
+msgid "help_tile_id"
+msgstr "Tiilen yksilöllinen tunniste (id), jota käytetään tiilen tietojen tallennuksessa."
+
+#. Default: "The type of tile to delete"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:38
+msgid "help_tile_type"
+msgstr "Valitse, minkä tyyppisen tiilen haluat poistaa."
+
+#. Default: "Delete"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:64
+msgid "label_confirm"
+msgstr "Poista"
+
+#. Default: "Create"
+#: ../plone.app.tiles/plone/app/tiles/browser/add.pt:42
+msgid "label_create"
+msgstr "Lisää tiili"
+
+#. Default: "OK"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:24
+msgid "label_ok"
+msgstr "Ok"
+
+#. Default: "Tile id"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:53
+msgid "label_tile_id"
+msgstr "Tiilin tunniste (id)"
+
+#. Default: "Tile type"
+#: ../plone.app.tiles/plone/app/tiles/browser/add.pt:15
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:37
+msgid "label_tile_type"
+msgstr "Tiilen tyyppi"
+
+#. Default: "The tile's data has been removed"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:6
+msgid "message_body_deleted"
+msgstr "Poisto onnistui."
+
+#. Default: "Info"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:5
+msgid "message_info"
+msgstr "Tietoa"
+

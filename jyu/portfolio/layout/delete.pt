@@ -1,5 +1,5 @@
 <metal:block use-macro="context/@@tile-form-layout/macros/master">
-    <metal:block fill-slot="main">
+    <metal:block fill-slot="main" i18n:domain="plone.app.tiles">
 
         <dl class="portalMessage" tal:condition="view/deleted">
             <dt i18n:translate="message_info">Info</dt>
@@ -8,7 +8,7 @@
 
         <h1 class="documentFirstHeading" i18n:translate="heading_delete_tile">Delete tile</h1>
 
-        <p class="documentDescription" i18n:translate="description_add_new_tile" tal:condition="not:view/deleted">
+        <p class="documentDescription" i18n:translate="description_delete_tile" tal:condition="not:view/deleted">
             Enter a tile type and id to delete
         </p>
 
