@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-25 15:10+0000\n"
+"POT-Creation-Date: 2011-02-28 08:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,6 +13,11 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
+
+#: jyu/portfolio/layout/add-tile.py:65
+#: jyu/portfolio/layout/edit-tile.py:72
+msgid "Cancel"
+msgstr ""
 
 #: jyu/portfolio/layout/tile.pt:40
 msgid "Configure"

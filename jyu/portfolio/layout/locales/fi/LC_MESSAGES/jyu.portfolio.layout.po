@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-25 15:10+0000\n"
-"PO-Revision-Date: 2011-02-25 17:08+0200\n"
+"POT-Creation-Date: 2011-02-28 08:36+0000\n"
+"PO-Revision-Date: 2011-02-28 10:41+0200\n"
 "Last-Translator: Asko Soukka <asko.soukka@iki.fi>\n"
 "Language-Team: Jyväskylän yliopisto <plone-support@jyu.fi>\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,11 @@ msgstr ""
 "Language-Name: Finnish\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
+
+#: jyu/portfolio/layout/add-tile.py:65
+#: jyu/portfolio/layout/edit-tile.py:72
+msgid "Cancel"
+msgstr "Peruuta"
 
 #: jyu/portfolio/layout/tile.pt:40
 msgid "Configure"
