@@ -6,6 +6,8 @@ from rwproperty import getproperty, setproperty
 
 from lxml import etree
 
+from Acquisition import aq_base
+
 from five import grok
 
 from zope import schema
@@ -83,14 +85,16 @@ class LayoutAdapter(grok.Adapter):
 
     @getproperty
     def content(self):
-        if hasattr(self.context, "content"):
-            return self.context.content
+        base = aq_base(self.context)
+        if hasattr(base, "content"):
+            return base.content
         else:
             return ILayout["content"].default
 
     @setproperty
     def content(self, value):
-        self.context.content = value
+        base = aq_base(self.context)
+        base.content = value
 
 
 class Layout(grok.View):
