@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-28 08:36+0000\n"
+"POT-Creation-Date: 2011-04-01 11:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,22 +57,22 @@ msgid "Tile saved"
 msgstr ""
 
 #. Default: "Add new tile onto this page"
-#: jyu/portfolio/layout/behaviors.py:121
+#: jyu/portfolio/layout/behaviors.py:125
 msgid "layout_add_new_help"
 msgstr ""
 
 #. Default: "Place new…"
-#: jyu/portfolio/layout/behaviors.py:120
+#: jyu/portfolio/layout/behaviors.py:124
 msgid "layout_add_new_label"
 msgstr ""
 
 #. Default: "Describes content and layout of the object in XHTML."
-#: jyu/portfolio/layout/behaviors.py:66
+#: jyu/portfolio/layout/behaviors.py:68
 msgid "layout_content_description"
 msgstr ""
 
 #. Default: "Content"
-#: jyu/portfolio/layout/behaviors.py:64
+#: jyu/portfolio/layout/behaviors.py:66
 msgid "layout_content_label"
 msgstr ""
 

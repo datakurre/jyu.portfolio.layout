@@ -83,6 +83,11 @@ msgstr "Valitse, minkä tyyppisen tiilen haluat poistaa."
 msgid "label_confirm"
 msgstr "Poista"
 
+#. Default: "Cancel"
+#: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:64
+msgid "label_cancel"
+msgstr "Peruuta"
+
 #. Default: "Create"
 #: ../plone.app.tiles/plone/app/tiles/browser/add.pt:42
 msgid "label_create"
