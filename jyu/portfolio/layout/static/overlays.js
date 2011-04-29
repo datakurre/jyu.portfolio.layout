@@ -1,19 +1,24 @@
 /*globals jQuery,common_content_filter,kukit*/
 jQuery(function($) {
+  // Configuring overlay forms with jQuery widgets is ugly, but let's
+  // hope it's worth it.
+
+  // Define support function to init jQuery-widgets on overlay-forms
   var init = function(el) {
     $(el).find("#content-core form, .pb-ajax > div > form").one("focus", function() {
       // plugins below may not exist on all setups
-      try { $(this).find("div[id$=autocomplete]").autocomplete_z3cform(); } catch (err) {};
+      try { $(this).find("div[id$=autocomplete]").autocomplete_z3cform(); } catch(e1) {}
       // autocomplete-plugin must be inited before placeholder-plugin
-      try { $(this).find(".field").placeholder_z3cform(); } catch (err) {};
+      try { $(this).find(".field").placeholder_z3cform(); } catch(e2) {}
       // markdown
       try { $(this).find("input[value='text/x-web-markdown']")
-            .parent().find("textarea").markdown_z3cform(); } catch (err) {};
+            .parent().find("textarea").markdown_z3cform(); } catch(e3) {}
       // Init KSS, but remember that KSS is made optional in 4.1!
       kukit.engine.setupEvents();
       return false;
     });
   };
+
   // Init overlay forms for tiles
   $('#remind-contentmenu-tiles li a, a.tile-configure, a.tile-delete').each(function() {
     $($(this).prepOverlay({
@@ -39,7 +44,7 @@ jQuery(function($) {
               + '</button>'
           };
           try { $(el).find(".date-widget, .datetime-widget")
-                .parent().datepick_z3cform(options); } catch (err) {};
+                .parent().datepick_z3cform(options); } catch(e4) {}
           if ($.fn.ploneTabInit) {
             $(el).ploneTabInit();
           }
