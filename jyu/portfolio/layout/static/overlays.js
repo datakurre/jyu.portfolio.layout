@@ -164,6 +164,7 @@ jQuery(function($) {
       kukit.engine.setupEvents();
       return false;
     });
+    $(el).find("input, select, textarea").first().focus();
   };
 
   // Init overlay forms for tiles
