@@ -162,9 +162,9 @@ jQuery(function($) {
             .parent().find("textarea").markdown_z3cform(); } catch(e3) {}
       // Init KSS, but remember that KSS is made optional in 4.1!
       kukit.engine.setupEvents();
+      $(this).find("input:visible, select:visible, textarea:visible").first().focus();
       return false;
     });
-    $(el).find("input, select, textarea").first().focus();
   };
 
   // Init overlay forms for tiles
