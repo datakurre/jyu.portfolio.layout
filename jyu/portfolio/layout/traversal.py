@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Enhances original AddTile by checking the existense of tiles on context"""
+"""Enhances the original AddTile by checking the availability of found
+tiles on the current context
+"""
 
 from zope.component import getAllUtilitiesRegisteredFor
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Adds layout support to your content type"""
+
 import os.path
 
 from rwproperty import getproperty, setproperty
@@ -21,7 +22,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 
 from plone.memoize import view
 from plone.directives import form
-
+x
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 from zope.app.publisher.browser.menu import BrowserMenu

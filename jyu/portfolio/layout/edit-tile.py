@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Enhances original AddFOrm to redirect after creation back to the context"""
+"""Enhances the original EditForm to redirect users back to the origin
+context after tile is edited
+"""
 
 from types import DictType
 

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Enhances original AddFOrm to redirect after creation back to the context"""
+"""Enhances the original AddForm to redirect users back to the origin
+context after new tile is created
+"""
 
 from z3c.form import button
 
