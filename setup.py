@@ -36,6 +36,8 @@ setup(name='jyu.portfolio.layout',
         'plone.app.blocks',
         # -*- XHTML-manipulation -*-
         'lxml',
+        # -*- Requires monkeypatcher to fix repoze.xmliter.utils: -*-
+        'collective.monkeypatcher',
       ],
       entry_points="""
       # -*- Entry points: -*-
