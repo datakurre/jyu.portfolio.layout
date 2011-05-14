@@ -24,6 +24,39 @@ from plone.app.tiles.browser.edit import DefaultEditForm
 from plone.app.tiles.browser.edit import DefaultEditView
 
 
+from zope import globalrequest
+
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+
+from AccessControl.User import UnrestrictedUser
+
+from plone.z3cform.interfaces import IDeferSecurityCheck
+
+
+def deferSecurityCheckDuringTraversal(func):
+    """Decorator for switching to unrestricted user on traversal
+    when IDeferSecurityCheck flag is attached to request."""
+    def wrapper(self, *args, **kwargs):
+        request = globalrequest.getRequest()
+        if IDeferSecurityCheck.providedBy(request):
+            old_security_manager = getSecurityManager()
+            newSecurityManager(
+                None, UnrestrictedUser('manager', '', ['Manager'], []))
+            try:
+                return func(self, *args, **kwargs)
+            except:
+                pass
+            finally:
+                # Note that finally is also called before return
+                setSecurityManager(old_security_manager)
+            return func(self, *args, **kwargs)
+        else:
+            return func(self, *args, **kwargs)
+    return wrapper
+
+
 class ReturningEditForm(DefaultEditForm):
     """Standard tile edit form, which is wrapped by DefaultEditView (see
     below).
@@ -35,6 +68,7 @@ class ReturningEditForm(DefaultEditForm):
     buttons = DefaultEditForm.buttons.select('save', 'cancel')
     handlers = DefaultEditForm.handlers.copy()
 
+    @deferSecurityCheckDuringTraversal
     def getContent(self):
         content = super(ReturningEditForm, self).getContent()
         if type(content) == DictType:
