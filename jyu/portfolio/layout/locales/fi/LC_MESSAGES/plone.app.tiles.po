@@ -14,40 +14,6 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:40
-msgid "Add ${name}"
-msgstr "Lisää ${name}"
-
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:94
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:111
-msgid "Cancel"
-msgstr "Peruuta"
-
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:63
-msgid "Edit ${name}"
-msgstr "Muokkaa ${name}"
-
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:44
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:67
-msgid "Save"
-msgstr "Tallenna"
-
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:74
-msgid "Tile created at ${url}"
-msgstr "Lisäys onnistui (${url})."
-
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:94
-msgid "Tile saved"
-msgstr "Muutokset tallennettu."
-
-#: ../plone.app.tiles/plone/app/tiles/browser/traversal.py:123
-msgid "You must select the type of tile to create"
-msgstr "Valitse, minkä tyyppisen tiilen haluat lisätä."
-
-#: ../plone.app.tiles/plone/app/tiles/browser/traversal.py:130
-msgid "You must specify an id"
-msgstr "Tiilen tunniste (id) täytyy määrittää."
-
 #. Default: "Select the type of tile you want to create"
 #: ../plone.app.tiles/plone/app/tiles/browser/add.pt:5
 msgid "description_add_new_tile"
@@ -56,7 +22,7 @@ msgstr "Valitse, minkä tyyppisen tiilen haluat lisätä."
 #. Default: "Enter a tile type and id to delete"
 #: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:11
 msgid "description_delete_tile"
-msgstr "Valitse 'Poista' poistaaksesi tiilen tai 'Peruuta' peruaksesi poistamisen."
+msgstr "Valitse 'Poista' poistaaksesi tai 'Peruuta' peruaksesi poistamisen."
 
 #. Default: "Create tile"
 #: ../plone.app.tiles/plone/app/tiles/browser/add.pt:3
@@ -66,7 +32,7 @@ msgstr "Määritä uusi tiili"
 #. Default: "Delete tile"
 #: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:9
 msgid "heading_delete_tile"
-msgstr "Poista tiili"
+msgstr "Vahvista poistaminen"
 
 #. Default: "A unique identifier for the tile. Used to key tile data."
 #: ../plone.app.tiles/plone/app/tiles/browser/delete.pt:54

@@ -18,40 +18,6 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.tiles\n"
 
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:40
-msgid "Add ${name}"
-msgstr ""
-
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:94
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:111
-msgid "Cancel"
-msgstr ""
-
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:63
-msgid "Edit ${name}"
-msgstr ""
-
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:44
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:67
-msgid "Save"
-msgstr ""
-
-#: ../plone.app.tiles/plone/app/tiles/browser/add.py:74
-msgid "Tile created at ${url}"
-msgstr ""
-
-#: ../plone.app.tiles/plone/app/tiles/browser/edit.py:94
-msgid "Tile saved"
-msgstr ""
-
-#: ../plone.app.tiles/plone/app/tiles/browser/traversal.py:123
-msgid "You must select the type of tile to create"
-msgstr ""
-
-#: ../plone.app.tiles/plone/app/tiles/browser/traversal.py:130
-msgid "You must specify an id"
-msgstr ""
-
 #. Default: "Select the type of tile you want to create"
 #: ../plone.app.tiles/plone/app/tiles/browser/add.pt:5
 msgid "description_add_new_tile"
