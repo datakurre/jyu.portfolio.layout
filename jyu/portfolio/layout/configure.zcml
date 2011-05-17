@@ -48,6 +48,8 @@
      provides="Products.GenericSetup.interfaces.EXTENSION"
      />
 
+  <include file="upgrades.zcml" />
+
   <unconfigure>
     <!-- Unconfigure demo-tiles from plone.app.tiles -->
     <plone:tile

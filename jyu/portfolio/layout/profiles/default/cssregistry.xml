@@ -7,5 +7,11 @@
   <stylesheet id="++resource++jyu.portfolio.layout/layout.css"
               cacheable="True" compression="safe" cookable="True"
               enabled="True" media="screen" rel="stylesheet" rendering="link"
+              insert-after="++resource++jyu.portfolio.layout/dragsort.css"
+              />
+  <stylesheet id="++resource++jyu.portfolio.layout/print.css"
+              cacheable="True" compression="safe" cookable="True"
+              enabled="True" media="print" rel="stylesheet" rendering="link"
+              insert-after="++resource++jyu.portfolio.layout/print.css"
               />
 </object>

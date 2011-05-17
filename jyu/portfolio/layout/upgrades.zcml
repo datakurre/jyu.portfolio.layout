@@ -1,0 +1,21 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+  <genericsetup:upgradeStep
+     title="upgrade1to2"
+     description="Upgrades from profile version 1 to 2."
+     profile="jyu.portfolio.layout:default"
+     source="1" destination="2" sortkey="1"
+     handler="jyu.portfolio.layout.upgrades.upgrade1to2"
+     />
+
+  <genericsetup:registerProfile
+     name="upgrade1to2"
+     title="Upgrade jyu.portfolio.layout (1 to 2)"
+     directory="profiles/upgrade1to2"
+     description="Upgrades jyu.portfolio.layout from profile 1 to 2."
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     />
+</configure>
