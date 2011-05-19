@@ -80,31 +80,30 @@ class MoveTile(grok.View):
     grok.require('cmf.ModifyPortalContent')
 
     def update(self, tile=None, direction=None, target=None, position=0):
-        self.tile_id = tile
-        self.direction =\
-            direction in [u"up", u"right", u"down", u"left"] and direction\
-            or None
-        self.target_id = target
+        # Parse values
+        tile_id = tile
+        direction = direction in [u"up", u"right", u"down", u"left"]\
+            and direction or None
+        target_id = target
         try:
-            self.position = max(0, int(position))
+            position = max(0, int(position))
         except ValueError:
-            self.position = 0
-
-    def render(self):
-        if self.tile_id and self.direction:
+            position = 0
+        # Perform move
+        if tile_id and direction:
             data = ILayout(self.context).content
             root = etree.fromstring(data)
 
             columns = root.xpath(
                 ("//html:div[contains(concat(' ', normalize-space(@class), ' '), "
                  "' cell ')]"), namespaces=NAMESPACES)
-            
-            for tile in root.xpath("//*[@id='%s']" % self.tile_id):
+
+            for tile in root.xpath("//*[@id='%s']" % tile_id):
                 modified = False
                 parent = tile.getparent()
 
                 # FIXME: Move between rows not yet implemented!
-                if self.direction == u"up":
+                if direction == u"up":
                     start = parent.index(tile)
                     position = max(0, start - 1)
                     if position != start:
@@ -112,7 +111,7 @@ class MoveTile(grok.View):
                         parent.insert(position, tile)
                         modified = True
 
-                elif self.direction == u"down":
+                elif direction == u"down":
                     start = parent.index(tile)
                     position = min(len(parent) - 1, start + 1)
                     if position != start:
@@ -120,7 +119,7 @@ class MoveTile(grok.View):
                         parent.insert(position, tile)
                         modified = True
 
-                elif self.direction == u"right":
+                elif direction == u"right":
                     start = columns.index(parent)
                     position = min(len(columns) - 1, start + 1)
                     if position != start:
@@ -128,7 +127,7 @@ class MoveTile(grok.View):
                         columns[position].insert(0, tile)
                         modified = True
 
-                elif self.direction == u"left":
+                elif direction == u"left":
                     start = columns.index(parent)
                     position = max(0, start - 1)
                     if position != start:
@@ -145,20 +144,20 @@ class MoveTile(grok.View):
                     pass
                 break
 
-        elif self.tile_id and self.target_id:
+        elif tile_id and target_id:
             data = ILayout(self.context).content
             root = etree.fromstring(data)
 
-            for tile in root.xpath("//*[@id='%s']" % self.tile_id):
-                for target in root.xpath("//*[@id='%s']" % self.target_id):
+            for tile in root.xpath("//*[@id='%s']" % tile_id):
+                for target in root.xpath("//*[@id='%s']" % target_id):
 
                     url = root.xpath("//html:link[@target='%s']"\
-                        % self.tile_id, namespaces=NAMESPACES)[0].get("href")
+                        % tile_id, namespaces=NAMESPACES)[0].get("href")
                     url = re.compile("^\.?\/?@{0,2}(.*)").findall(url)[0]
 
                     tile.getparent().remove(tile)
-                    if self.position < len(target):
-                        target.insert(self.position, tile)
+                    if position < len(target):
+                        target.insert(position, tile)
                     else:
                         target.append(tile)
                     try:
@@ -170,6 +169,7 @@ class MoveTile(grok.View):
                     break
                 break
 
+    def render(self):
         if self.request.get("HTTP_X_REQUESTED_WITH", None) == "XMLHttpRequest":
             return u""
 
