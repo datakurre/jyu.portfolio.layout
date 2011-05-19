@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-"""Enhances the original EditForm to redirect users back to the origin
-context after tile is edited
+"""Enhances the original EditForm to 1) redirect users back to the
+origin context after tile is edited, 2) defer security check during
+widget traversal and 3) support wysiwyg widget (injects "portal_url",
+"portal_skins" and "wysiwyg_support" into dict context and 4) apply
+changes using datamanagers (and support e.g. RelationList fields.
 """
 
 from types import DictType
 
 from z3c.form import button
+from z3c.form.form import applyChanges
 
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.event import notify
@@ -92,7 +96,9 @@ class ReturningEditForm(DefaultEditForm):
         tile = self.context.restrictedTraverse('@@%s/%s' % (typeName, self.tileId,))
 
         dataManager = ITileDataManager(tile)
-        dataManager.set(data)
+        content = dataManager.get()
+        applyChanges(self, content, data)
+        dataManager.set(content)
 
         # Look up the URL - we need to do this after we've set the data to
         # correctly account for transient tiles
