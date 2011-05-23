@@ -1,286 +1,413 @@
 // jQuery List DragSort v0.4
 // Website: http://dragsort.codeplex.com/
 // License: http://dragsort.codeplex.com/license
-
+//
+// touchHandler
+// Ross Boucher - iPhone Touch Events in JavaScript
+// http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript
+// considered public domain
 (function($) {
+  var touchHandler = function(event) {
+    var touches = event.changedTouches,
+        first = touches[0],
+        type = "";
 
-	$.fn.dragsort = function(options) {
-		var opts = $.extend({}, $.fn.dragsort.defaults, options);
-		var lists = [];
-		var list = null, lastPos = null;
-		if (this.selector)
-			$("head").append("<style type='text/css'>" + (this.selector.split(",").join(" " + opts.dragSelector + ",") + " " + opts.dragSelector) + " { cursor: pointer; }</style>");
+    switch(event.type)  {
+      case "touchstart": type="mousedown"; break;
+      case "touchmove": type="mousemove"; break;        
+      case "touchend": type="mouseup"; break;
+      default: return;
+    }
 
-		this.each(function(i, cont) {
+    // initMouseEvent(type, canBubble, cancelable, view, clickCount,
+    // screenX, screenY, clientX, clientY, ctrlKey,
+    // altKey, shiftKey, metaKey, button, relatedTarget);
 
-			if ($(cont).is("table") && $(cont).children().size() == 1 && $(cont).children().is("tbody"))
-				cont = $(cont).children().get(0);
+    var simulatedEvent = document.createEvent("MouseEvent");
+    simulatedEvent.initMouseEvent(
+      type, true, true, window, 1,
+      first.screenX, first.screenY,
+      first.clientX, first.clientY, false,
+      false, false, false, 0/*left*/, null
+    );
 
-			var newList = {
-				draggedItem: null,
-				placeHolderItem: null,
-				pos: null,
-				offset: null,
-				offsetLimit: null,
-				scroll: null,
-				container: cont,
+    first.target.dispatchEvent(simulatedEvent);
 
-				init: function() {
-					$(this.container).attr("data-listIdx", i).mousedown(this.grabItem).find(opts.dragSelector).css("cursor", "pointer");
-					$(this.container).children(opts.itemSelector).each(function(j) { $(this).attr("data-itemIdx", j); });
-				},
+    switch(event.type)  {
+      case "touchstart": break; // allow :focus on touch
+      default: event.preventDefault();
+    }
+  };
 
-				grabItem: function(e) {
-					if (e.which != 1 || $(e.target).is(opts.dragSelectorExclude))
-						return;
+  // Usage:
+  //document.addEventListener("touchstart", touchHandler, true);
+  //document.addEventListener("touchmove", touchHandler, true);
+  //document.addEventListener("touchend", touchHandler, true);
+  //document.addEventListener("touchcancel", touchHandler, true);    
 
-					var elm = e.target;
-					while (!$(elm).is("[data-listIdx='" + $(this).attr("data-listIdx") + "'] " + opts.dragSelector)) {
-						if (elm == this) return;
-						elm = elm.parentNode;
-					}
+  $.fn.dragsort = function(options) {
+    var opts = $.extend({}, $.fn.dragsort.defaults, options),
+        lists = [], list = null, lastPos = null;
 
-					if (list != null && list.draggedItem != null)
-						list.dropItem();
+    if (this.selector) {
+      $("head").append("<style type='text/css'>" + (
+        this.selector.split(",").join(" " + opts.dragSelector + ",")
+        + " " + opts.dragSelector) + " { cursor: pointer; }</style>"
+      );
+    }
 
-					list = lists[$(this).attr("data-listIdx")];
-					list.draggedItem = $(elm).closest(opts.itemSelector);
-					list.draggedItem.addClass("dragged");
-					var mt = parseInt(list.draggedItem.css("marginTop"));
-					var ml = parseInt(list.draggedItem.css("marginLeft"));
-					list.offset = list.draggedItem.offset();
-					list.offset.top = e.pageY - list.offset.top + (isNaN(mt) ? 0 : mt) - 1;
-					list.offset.left = e.pageX - list.offset.left + (isNaN(ml) ? 0 : ml) - 1;
+    this.each(function(i, cont) {
+      if ($(cont).is("table")
+          && $(cont).children().size() == 1
+          && $(cont).children().is("tbody")) {
+        cont = $(cont).children().get(0);
+      }
 
-					if (!opts.dragBetween) {
-						var containerHeight = $(list.container).outerHeight() == 0 ? Math.max(1, Math.round(0.5 + $(list.container).children(opts.itemSelector).size() * list.draggedItem.outerWidth() / $(list.container).outerWidth())) * list.draggedItem.outerHeight() : $(list.container).outerHeight();
-						list.offsetLimit = $(list.container).offset();
-						list.offsetLimit.right = list.offsetLimit.left + $(list.container).outerWidth() - list.draggedItem.outerWidth();
-						list.offsetLimit.bottom = list.offsetLimit.top + containerHeight - list.draggedItem.outerHeight();
-					}
+      var newList = {
+        draggedItem: null,
+        placeHolderItem: null,
+        pos: null,
+        offset: null,
+        offsetLimit: null,
+        scroll: null,
+        container: cont,
 
-					var h = list.draggedItem.height();
-					var w = list.draggedItem.width();
-					var orig = list.draggedItem.attr("style");
-					list.draggedItem.attr("data-origStyle", orig ? orig : "");
-					if (opts.itemSelector == "tr") {
-						list.draggedItem.children().each(function() { $(this).width($(this).width()); });
-						list.placeHolderItem = list.draggedItem.clone().attr("data-placeHolder", true);
-						list.draggedItem.after(list.placeHolderItem);
-						list.placeHolderItem.children().each(function() { $(this).css({ borderWidth:0, width: $(this).width() + 1, height: $(this).height() + 1 }).html("&nbsp;"); });
-					} else {
-						list.draggedItem.after(opts.placeHolderTemplate);
-						list.placeHolderItem = list.draggedItem.next().css({ height: h, width: w }).attr("data-placeHolder", true);
-					}
-					list.draggedItem.css({ position: "absolute", opacity: 0.8, "z-index": 999, height: h, width: w, cursor: "move" });
+        init: function() {
+          $(this.container).attr("data-listIdx", i)
+            .mousedown(this.grabItem).each(function() {
+              this.addEventListener("touchstart", touchHandler, true);
+            })
+            .find(opts.dragSelector).css("cursor", "pointer");
+          $(this.container).children(opts.itemSelector).each(function(j) {
+            $(this).attr("data-itemIdx", j);
+          });
+        },
 
-					$(lists).each(function(i, l) { l.createDropTargets(); l.buildPositionTable(); });
+        grabItem: function(e) {
+          if (e.which != 1 || $(e.target).is(opts.dragSelectorExclude)) {
+            return;
+          }
 
-					list.scroll = { moveX: 0, moveY: 0, maxX: $(document).width() - $(window).width(), maxY: $(document).height() - $(window).height() };
-					list.scroll.scrollY = window.setInterval(function() {
-						if (opts.scrollContainer != window) {
-							$(opts.scrollContainer).scrollTop($(opts.scrollContainer).scrollTop() + list.scroll.moveY);
-							return;
-						}
-						var t = $(opts.scrollContainer).scrollTop();
-						if (list.scroll.moveY > 0 && t < list.scroll.maxY || list.scroll.moveY < 0 && t > 0) {
-							$(opts.scrollContainer).scrollTop(t + list.scroll.moveY);
-							list.draggedItem.css("top", list.draggedItem.offset().top + list.scroll.moveY + 1);
-						}
-					}, 10);
-					list.scroll.scrollX = window.setInterval(function() {
-						if (opts.scrollContainer != window) {
-							$(opts.scrollContainer).scrollLeft($(opts.scrollContainer).scrollLeft() + list.scroll.moveX);
-							return;
-						}
-						var l = $(opts.scrollContainer).scrollLeft();
-						if (list.scroll.moveX > 0 && l < list.scroll.maxX || list.scroll.moveX < 0 && l > 0) {
-							$(opts.scrollContainer).scrollLeft(l + list.scroll.moveX);
-							list.draggedItem.css("left", list.draggedItem.offset().left + list.scroll.moveX + 1);
-						}
-					}, 10);
+          var elm = e.target;
 
-					list.setPos(e.pageX, e.pageY);
-					$(document).bind("selectstart", list.stopBubble); //stop ie text selection
-					$(document).bind("mousemove", list.swapItems);
-					$(document).bind("mouseup", list.dropItem);
-					if (opts.scrollContainer != window)
-						$(window).bind("DOMMouseScroll mousewheel", list.wheel);
-					return false; //stop moz text selection
-				},
+          while (!$(elm).is("[data-listIdx='"
+                            + $(this).attr("data-listIdx") + "'] "
+                            + opts.dragSelector)) {
+            if (elm == this) { return; }
+            elm = elm.parentNode;
+          }
 
-				setPos: function(x, y) {
-					var top = y - this.offset.top;
-					var left = x - this.offset.left;
+          if (list !== null && list.draggedItem !== null) {
+            list.dropItem();
+          }
 
-					if (!opts.dragBetween) {
-						top = Math.min(this.offsetLimit.bottom, Math.max(top, this.offsetLimit.top));
-						left = Math.min(this.offsetLimit.right, Math.max(left, this.offsetLimit.left));
-					}
+          list = lists[$(this).attr("data-listIdx")];
+          list.draggedItem = $(elm).closest(opts.itemSelector);
+          list.draggedItem.addClass("dragged");
 
-					this.draggedItem.parents().each(function() {
-						if ($(this).css("position") != "static" && (!$.browser.mozilla || $(this).css("display") != "table")) {
-							var offset = $(this).offset();
-							top -= offset.top;
-							left -= offset.left;
-							return false;
-						}
-					});
+          var mt = parseInt(list.draggedItem.css("marginTop"), 10);
+          var ml = parseInt(list.draggedItem.css("marginLeft"), 10);
 
-					if (opts.scrollContainer == window) {
-						y -= $(window).scrollTop();
-						x -= $(window).scrollLeft();
-						y = Math.max(0, y - $(window).height() + 5) + Math.min(0, y - 5);
-						x = Math.max(0, x - $(window).width() + 5) + Math.min(0, x - 5);
-					} else {
-						var cont = $(opts.scrollContainer);
-						var offset = cont.offset();
-						y = Math.max(0, y - cont.height() - offset.top) + Math.min(0, y - offset.top);
-						x = Math.max(0, x - cont.width() - offset.left) + Math.min(0, x - offset.left);
-					}
-					
-					list.scroll.moveX = x == 0 ? 0 : x * opts.scrollSpeed / Math.abs(x);
-					list.scroll.moveY = y == 0 ? 0 : y * opts.scrollSpeed / Math.abs(y);
+          list.offset = list.draggedItem.offset();
+          list.offset.top = e.pageY - list.offset.top + (isNaN(mt) ? 0: mt) - 1;
+          list.offset.left = e.pageX - list.offset.left + (isNaN(ml) ? 0: ml) - 1;
 
-					this.draggedItem.css({ top: top, left: left });
-				},
-				
-				wheel: function(e) {
-					if (($.browser.safari || $.browser.mozilla) && list && opts.scrollContainer != window) {
-						var cont = $(opts.scrollContainer);
-						var offset = cont.offset();
-						if (e.pageX > offset.left && e.pageX < offset.left + cont.width() && e.pageY > offset.top && e.pageY < offset.top + cont.height()) {
-							var delta = e.detail ? e.detail * 5 : e.wheelDelta / -2;
-							cont.scrollTop(cont.scrollTop() + delta);
-							e.preventDefault();
-						}
-					}
-				},
+          if (!opts.dragBetween) {
+            var containerHeight = $(list.container).outerHeight() === 0 ? Math.max(1, Math.round(0.5 + $(list.container).children(opts.itemSelector).size() * list.draggedItem.outerWidth() / $(list.container).outerWidth())) * list.draggedItem.outerHeight() : $(list.container).outerHeight();
+            list.offsetLimit = $(list.container).offset();
+            list.offsetLimit.right = list.offsetLimit.left + $(list.container).outerWidth() - list.draggedItem.outerWidth();
+            list.offsetLimit.bottom = list.offsetLimit.top + containerHeight - list.draggedItem.outerHeight();
+          }
 
-				buildPositionTable: function() {
-					var item = this.draggedItem == null ? null : this.draggedItem.get(0);
-					var pos = [];
-					$(this.container).children(opts.itemSelector).each(function(i, elm) {
-						if (elm != item) {
-							var loc = $(elm).offset();
-							loc.right = loc.left + $(elm).width();
-							loc.bottom = loc.top + $(elm).height();
-							loc.elm = elm;
-							pos.push(loc);
-						}
-					});
-					this.pos = pos;
-				},
+          var h = list.draggedItem.height();
+          var w = list.draggedItem.width();
+          var orig = list.draggedItem.attr("style");
 
-				dropItem: function() {
-					if (list.draggedItem == null)
-						return;
+          list.draggedItem.attr("data-origStyle", orig ? orig: "");
 
-					$(list.container).find(opts.dragSelector).css("cursor", "pointer");
-					list.draggedItem.removeClass("dragged");
-					list.placeHolderItem.before(list.draggedItem);
+          if (opts.itemSelector == "tr") {
+            list.draggedItem.children().each(function() {
+              $(this).width($(this).width());
+            });
+            list.placeHolderItem =
+              list.draggedItem.clone().attr("data-placeHolder", true);
+            list.draggedItem.after(list.placeHolderItem);
+            list.placeHolderItem.children().each(function() {
+              $(this).css({
+                borderWidth: 0,
+                width: $(this).width() + 1,
+                height: $(this).height() + 1
+              }).html("&nbsp;");
+            });
+          } else {
+            list.draggedItem.after(opts.placeHolderTemplate);
+            list.placeHolderItem = list.draggedItem.next().css({
+              height: h,
+              width: w
+            }).attr("data-placeHolder", true);
+          }
 
-					var orig = list.draggedItem.attr("data-origStyle");
-					if (orig == "")
-						list.draggedItem.removeAttr("style");
-					else {
-						list.draggedItem.attr("style", orig);
-					        list.draggedItem.removeAttr("data-origStyle");
-					}
-					list.placeHolderItem.remove();
+          list.draggedItem.css({
+            position: "absolute",
+            opacity: 0.8,
+            "z-index": 999,
+            height: h,
+            width: w,
+            cursor: "move"
+          });
 
-					$("[data-dropTarget]").remove();
+          $(lists).each(function(i, l) {
+            l.createDropTargets();
+            l.buildPositionTable();
+          });
 
-					window.clearInterval(list.scroll.scrollY);
-					window.clearInterval(list.scroll.scrollX);
+          list.scroll = {
+            moveX: 0,
+            moveY: 0,
+            maxX: $(document).width() - $(window).width(),
+            maxY: $(document).height() - $(window).height()
+          };
 
-					var changed = false;
-					$(lists).each(function() {
-						$(this.container).children(opts.itemSelector).each(function(j) {
-							if (parseInt($(this).attr("data-itemIdx")) != j) {
-								changed = true;
-								$(this).attr("data-itemIdx", j);
-							}
-						});
-					});
-					if (changed || list.draggedItem.parent()[0] !== list.container)
-						opts.dragEnd.apply(list.draggedItem);
-					list.draggedItem = null;
-					$(document).unbind("selectstart", list.stopBubble);
-					$(document).unbind("mousemove", list.swapItems);
-					$(document).unbind("mouseup", list.dropItem);
-					if (opts.scrollContainer != window)
-						$(window).unbind("DOMMouseScroll mousewheel", list.wheel);
-					return false;
-				},
+          list.scroll.scrollY = window.setInterval(function() {
+            if (opts.scrollContainer != window) {
+              $(opts.scrollContainer)
+                .scrollTop($(opts.scrollContainer)
+                .scrollTop() + list.scroll.moveY);
+              return;
+            }
+            var t = $(opts.scrollContainer).scrollTop();
+            if (list.scroll.moveY > 0
+                && t < list.scroll.maxY || list.scroll.moveY < 0
+                && t > 0) {
+              $(opts.scrollContainer).scrollTop(t + list.scroll.moveY);
+              list.draggedItem.css(
+                "top", list.draggedItem.offset().top + list.scroll.moveY + 1
+              );
+            }
+          }, 10);
 
-				stopBubble: function() { return false; },
+          list.scroll.scrollX = window.setInterval(function() {
+            if (opts.scrollContainer != window) {
+              $(opts.scrollContainer)
+                .scrollLeft($(opts.scrollContainer)
+                .scrollLeft() + list.scroll.moveX);
+              return;
+            }
+            var l = $(opts.scrollContainer).scrollLeft();
+            if (list.scroll.moveX > 0
+                && l < list.scroll.maxX || list.scroll.moveX < 0
+                && l > 0) {
+              $(opts.scrollContainer).scrollLeft(l + list.scroll.moveX);
+              list.draggedItem.css(
+                "left", list.draggedItem.offset().left + list.scroll.moveX + 1
+              );
+            }
+          }, 10);
 
-				swapItems: function(e) {
-					if (list.draggedItem == null)
-						return false;
+          list.setPos(e.pageX, e.pageY);
+          $(document).bind("selectstart", list.stopBubble);
+          //stop ie text selection
+          $(document).bind("mousemove", list.swapItems);
+          document.addEventListener("touchmove", touchHandler, true);
+          $(document).bind("mouseup", list.dropItem);
+          document.addEventListener("touchend", touchHandler, true);
+          if (opts.scrollContainer != window) {
+            $(window).bind("DOMMouseScroll mousewheel", list.wheel);
+          }
+          return false;
+          //stop moz text selection
+        },
 
-					list.setPos(e.pageX, e.pageY);
+        setPos: function(x, y) {
+          var top = y - this.offset.top;
+          var left = x - this.offset.left;
 
-					var ei = list.findPos(e.pageX, e.pageY);
-					var nlist = list;
-					for (var i = 0; ei == -1 && opts.dragBetween && i < lists.length; i++) {
-						ei = lists[i].findPos(e.pageX, e.pageY);
-						nlist = lists[i];
-					}
+          if (!opts.dragBetween) {
+            top = Math.min(this.offsetLimit.bottom, Math.max(top, this.offsetLimit.top));
+            left = Math.min(this.offsetLimit.right, Math.max(left, this.offsetLimit.left));
+          }
 
-					if (ei == -1 || $(nlist.pos[ei].elm).attr("data-placeHolder"))
-						return false;
+          this.draggedItem.parents().each(function() {
+            if ($(this).css("position") != "static" && (!$.browser.mozilla || $(this).css("display") != "table")) {
+              var offset = $(this).offset();
+              top -= offset.top;
+              left -= offset.left;
+              return false;
+            }
+          });
 
-					if (lastPos == null || lastPos.top > list.draggedItem.offset().top || lastPos.left > list.draggedItem.offset().left)
-						$(nlist.pos[ei].elm).before(list.placeHolderItem);
-					else
-						$(nlist.pos[ei].elm).after(list.placeHolderItem);
+          if (opts.scrollContainer == window) {
+            y -= $(window).scrollTop();
+            x -= $(window).scrollLeft();
+            y = Math.max(0, y - $(window).height() + 5) + Math.min(0, y - 5);
+            x = Math.max(0, x - $(window).width() + 5) + Math.min(0, x - 5);
+          } else {
+            var cont = $(opts.scrollContainer);
+            var offset = cont.offset();
+            y = Math.max(0, y - cont.height() - offset.top)
+                + Math.min(0, y - offset.top);
+            x = Math.max(0, x - cont.width() - offset.left)
+                + Math.min(0, x - offset.left);
+          }
 
-					$(lists).each(function(i, l) { l.createDropTargets(); l.buildPositionTable(); });
-					lastPos = list.draggedItem.offset();
-					return false;
-				},
+          list.scroll.moveX = x === 0 ? 0: x * opts.scrollSpeed / Math.abs(x);
+          list.scroll.moveY = y === 0 ? 0: y * opts.scrollSpeed / Math.abs(y);
 
-				findPos: function(x, y) {
-					for (var i = 0; i < this.pos.length; i++) {
-						if (this.pos[i].left < x && this.pos[i].right > x && this.pos[i].top < y && this.pos[i].bottom > y)
-							return i;
-					}
-					return -1;
-				},
+          this.draggedItem.css({
+            top: top,
+            left: left
+          });
+        },
 
-				createDropTargets: function() {
-					if (!opts.dragBetween)
-						return;
+        wheel: function(e) {
+          if (($.browser.safari || $.browser.mozilla)
+              && list && opts.scrollContainer != window) {
+            var cont = $(opts.scrollContainer);
+            var offset = cont.offset();
+            if (e.pageX > offset.left
+                && e.pageX < offset.left + cont.width()
+                && e.pageY > offset.top
+                && e.pageY < offset.top + cont.height()) {
+              var delta = e.detail ? e.detail * 5: e.wheelDelta / -2;
+              cont.scrollTop(cont.scrollTop() + delta);
+              e.preventDefault();
+            }
+          }
+        },
 
-					$(lists).each(function() {
-						var ph = $(this.container).find("[data-placeHolder]");
-						var dt = $(this.container).find("[data-dropTarget]");
-						if (ph.size() > 0 && dt.size() > 0)
-							dt.remove();
-						else if (ph.size() == 0 && dt.size() == 0)
-							$(this.container).append(list.placeHolderItem.clone().removeAttr("data-placeHolder").attr("data-dropTarget", true));
-					});
-				}
-			};
+        buildPositionTable: function() {
+          var item = this.draggedItem === null ? null: this.draggedItem.get(0);
+          var pos = [];
+          $(this.container).children(opts.itemSelector).each(function(i, elm) {
+            if (elm != item) {
+              var loc = $(elm).offset();
+              loc.right = loc.left + $(elm).width();
+              loc.bottom = loc.top + $(elm).height();
+              loc.elm = elm;
+              pos.push(loc);
+            }
+          });
+          this.pos = pos;
+        },
 
-			newList.init();
-			lists.push(newList);
-		});
+        dropItem: function() {
+          if (list.draggedItem === null) {
+            return;
+          }
 
-		return this;
-	};
+          $(list.container).find(opts.dragSelector).css("cursor", "pointer");
+          list.draggedItem.removeClass("dragged");
+          list.placeHolderItem.before(list.draggedItem);
 
-	$.fn.dragsort.defaults = {
-		itemSelector: "li",
-		dragSelector: "li",
-		dragSelectorExclude: "input, textarea, a[href]",
-		dragEnd: function() { },
-		dragBetween: false,
-		placeHolderTemplate: "<li>&nbsp;</li>",
-		scrollContainer: window,
-		scrollSpeed: 5
-	};
+          var orig = list.draggedItem.attr("data-origStyle");
+          if (orig === "") {
+            list.draggedItem.removeAttr("style");
+          } else {
+            list.draggedItem.attr("style", orig);
+            list.draggedItem.removeAttr("data-origStyle");
+          }
+          list.placeHolderItem.remove();
+
+          $("[data-dropTarget]").remove();
+
+          window.clearInterval(list.scroll.scrollY);
+          window.clearInterval(list.scroll.scrollX);
+
+          var changed = false;
+          $(lists).each(function() {
+            $(this.container).children(opts.itemSelector).each(function(j) {
+              if (parseInt($(this).attr("data-itemIdx"), 10) != j) {
+                changed = true;
+                $(this).attr("data-itemIdx", j);
+              }
+            });
+          });
+          if (changed || list.draggedItem.parent()[0] !== list.container) {
+            opts.dragEnd.apply(list.draggedItem);
+          }
+          list.draggedItem = null;
+          $(document).unbind("selectstart", list.stopBubble);
+          $(document).unbind("mousemove", list.swapItems);
+          document.removeEventListener("touchmove", touchHandler, true);
+          $(document).unbind("mouseup", list.dropItem);
+          document.removeEventListener("touchend", touchHandler, true);
+          if (opts.scrollContainer != window) {
+            $(window).unbind("DOMMouseScroll mousewheel", list.wheel);
+          }
+          return false;
+        },
+
+        stopBubble: function() {
+          return false;
+        },
+
+        swapItems: function(e) {
+          if (list.draggedItem === null) {
+            return false;
+          }
+          list.setPos(e.pageX, e.pageY);
+          var ei = list.findPos(e.pageX, e.pageY);
+          var nlist = list;
+          for (var i = 0; ei == -1 && opts.dragBetween && i < lists.length; i++) {
+            ei = lists[i].findPos(e.pageX, e.pageY);
+            nlist = lists[i];
+          }
+          if (ei == -1 || $(nlist.pos[ei].elm).attr("data-placeHolder")) {
+            return false;
+          }
+          if (lastPos === null || lastPos.top > list.draggedItem.offset().top || lastPos.left > list.draggedItem.offset().left) {
+            $(nlist.pos[ei].elm).before(list.placeHolderItem);
+          } else {
+            $(nlist.pos[ei].elm).after(list.placeHolderItem);
+          }
+          $(lists).each(function(i, l) {
+            l.createDropTargets();
+            l.buildPositionTable();
+          });
+          lastPos = list.draggedItem.offset();
+          return false;
+        },
+        findPos: function(x, y) {
+          for (var i = 0; i < this.pos.length; i++) {
+            if (this.pos[i].left < x && this.pos[i].right > x && this.pos[i].top < y && this.pos[i].bottom > y) {
+              return i;
+            }
+          }
+          return - 1;
+        },
+        createDropTargets: function() {
+          if (!opts.dragBetween) {
+            return;
+          }
+          $(lists).each(function() {
+            var ph = $(this.container).find("[data-placeHolder]");
+            var dt = $(this.container).find("[data-dropTarget]");
+            if (ph.size() > 0 && dt.size() > 0) {
+              dt.remove();
+            } else if (ph.size() === 0 && dt.size() === 0) {
+              $(this.container)
+              .append(list.placeHolderItem.clone()
+              .removeAttr("data-placeHolder")
+              .attr("data-dropTarget", true));
+            }
+          });
+        }
+      };
+      newList.init();
+      lists.push(newList);
+    });
+    return this;
+  };
+
+  $.fn.dragsort.defaults = {
+    itemSelector: "li",
+    dragSelector: "li",
+    dragSelectorExclude: "input, textarea, a[href]",
+    dragEnd: function() {},
+    dragBetween: false,
+    placeHolderTemplate: "<li>&nbsp;</li>",
+    scrollContainer: window,
+    scrollSpeed: 5
+  };
 
 })(jQuery);
