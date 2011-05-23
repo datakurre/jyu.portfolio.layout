@@ -32,18 +32,8 @@
     );
 
     first.target.dispatchEvent(simulatedEvent);
-
-    switch(event.type)  {
-      case "touchstart": break; // allow :focus on touch
-      default: event.preventDefault();
-    }
+    event.preventDefault();
   };
-
-  // Usage:
-  //document.addEventListener("touchstart", touchHandler, true);
-  //document.addEventListener("touchmove", touchHandler, true);
-  //document.addEventListener("touchend", touchHandler, true);
-  //document.addEventListener("touchcancel", touchHandler, true);    
 
   $.fn.dragsort = function(options) {
     var opts = $.extend({}, $.fn.dragsort.defaults, options),
@@ -85,7 +75,7 @@
 
         grabItem: function(e) {
           if (e.which != 1 || $(e.target).is(opts.dragSelectorExclude)) {
-            return;
+            return $(e.target).click();
           }
 
           var elm = e.target;
@@ -103,7 +93,9 @@
 
           list = lists[$(this).attr("data-listIdx")];
           list.draggedItem = $(elm).closest(opts.itemSelector);
-          list.draggedItem.addClass("dragged");
+
+          $(opts.itemSelector).filter(".active").removeClass("active");
+          list.draggedItem.addClass("dragged").addClass("active");
 
           var mt = parseInt(list.draggedItem.css("marginTop"), 10);
           var ml = parseInt(list.draggedItem.css("marginLeft"), 10);

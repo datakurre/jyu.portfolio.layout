@@ -1,3 +1,4 @@
+.documentEditable #content-core .cell.sortable > div.active,
 .documentEditable #content-core .cell.sortable > div:hover {
     outline: 2px dashed #ddd;
 }
@@ -10,6 +11,7 @@
     -webkit-box-shadow: 0 0 2em #666;
 }
 
+.documentEditable #content-core .cell.sortable > div.dragged.active,
 .documentEditable #content-core .cell.sortable > div.dragged:hover {
     outline: none;
 }

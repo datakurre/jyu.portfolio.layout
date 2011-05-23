@@ -35,6 +35,7 @@ form#delete .field {
     padding: 0 0.25em;
 }
 
+#content-core .tile.active .tile-header,
 #content-core .tile:hover .tile-header {
     display: block;
     border-left: 2px dashed #ddd;
