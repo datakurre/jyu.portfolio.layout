@@ -32,7 +32,9 @@
     );
 
     first.target.dispatchEvent(simulatedEvent);
-    event.preventDefault();
+    if (event.type != "touchstart") {
+      event.preventDefault();
+    }
   };
 
   $.fn.dragsort = function(options) {
@@ -77,7 +79,7 @@
 
         grabItem: function(e) {
           if (e.which != 1 || $(e.target).is(opts.dragSelectorExclude)) {
-            return $(e.target).click();
+            return;
           }
 
           var elm = e.target;
