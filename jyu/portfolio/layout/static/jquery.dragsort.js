@@ -69,7 +69,9 @@
             })
             .find(opts.dragSelector).css("cursor", "pointer");
           $(this.container).children(opts.itemSelector).each(function(j) {
-            $(this).attr("data-itemIdx", j);
+            $(this).attr("data-itemIdx", j).mouseout(function() {
+              if ($(this).hasClass("active")) { $(this).removeClass("active"); }
+            });
           });
         },
 
