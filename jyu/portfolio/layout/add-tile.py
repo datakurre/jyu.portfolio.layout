@@ -4,6 +4,7 @@ context after new tile is created
 """
 
 from z3c.form import button
+from z3c.form.form import applyChanges
 
 from zope.lifecycleevent import ObjectCreatedEvent, ObjectAddedEvent
 from zope.event import notify
@@ -45,7 +46,9 @@ class ReturningAddForm(DefaultAddForm):
             '@@%s/%s' % (typeName, self.tileId,))
 
         dataManager = ITileDataManager(tile)
-        dataManager.set(data)
+        content = {}
+        applyChanges(self, content, data)
+        dataManager.set(content)
 
         # Look up the URL - we need to do this after we've set the data to
         # correctly account for transient tiles
